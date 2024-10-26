@@ -44,14 +44,6 @@ export class Order {
       if (![Order.SIDE_LONG, Order.SIDE_SHORT].includes(side)) {
          throw new Error(`Invalid order side given: ${side}`);
       }
-
-      this.id = id;
-      this.symbol = symbol;
-      this.side = side;
-      this.price = price;
-      this.amount = amount;
-      this.type = type;
-      this.options = options;
    }
 
    hasAdjustedPrice() {

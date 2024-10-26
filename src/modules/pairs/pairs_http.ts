@@ -19,7 +19,7 @@ export class PairsHttp {
       const pairs = await Promise.all(
          this.instances.symbols.map(async (symbol: any) => {
             const position = await this.exchangeManager.getPosition(symbol.exchange, symbol.symbol);
-            const state = await this.pairStateManager.get(symbol.exchange, symbol.symbol);
+            const state = this.pairStateManager.get(symbol.exchange, symbol.symbol);
 
             const strategiesTrade = symbol.trade?.strategies ? symbol.trade.strategies : [];
             const strategies = symbol.strategies || [];

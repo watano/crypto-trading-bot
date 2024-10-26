@@ -400,7 +400,7 @@ describe('#pair state execution', () => {
       assert.strictEqual(logMessages.info.filter((msg: any) => msg.includes('directly filled clearing state')).length, 1);
    });
 
-   it.skip('test onPairStateExecutionTick calling', async () => {
+   it('test onPairStateExecutionTick calling', async () => {
       const logMessages: any = {
          error: [],
       };

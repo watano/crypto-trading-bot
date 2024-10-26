@@ -1,10 +1,11 @@
+import { Position } from '~/src/dict/position';
 import { ExchangeOrder } from '../dict/exchange_order';
 
 export const calculateOrderAmount = (price: number, capital: number): number => {
    return capital / price;
 };
 
-export const syncOrderByType = (position: { amount: number }, orders: ExchangeOrder[], type: string): ExchangeOrder[] => {
+export const syncOrderByType = (position: Position, orders: ExchangeOrder[], type: string): ExchangeOrder[] => {
    const stopOrders = orders.filter((order) => order.getType() === type);
    console.log(stopOrders);
    if (stopOrders.length === 0) {
@@ -26,11 +27,11 @@ export const syncOrderByType = (position: { amount: number }, orders: ExchangeOr
    return [];
 };
 
-export const syncStopLossOrder = (position: { amount: number }, orders: ExchangeOrder[]): ExchangeOrder[] => {
+export const syncStopLossOrder = (position: Position, orders: ExchangeOrder[]): ExchangeOrder[] => {
    return syncOrderByType(position, orders, ExchangeOrder.TYPE_STOP);
 };
 
-export const syncTrailingStopLossOrder = (position: { amount: number }, orders: ExchangeOrder[]): ExchangeOrder[] => {
+export const syncTrailingStopLossOrder = (position: Position, orders: ExchangeOrder[]): ExchangeOrder[] => {
    return syncOrderByType(position, orders, ExchangeOrder.TYPE_TRAILING_STOP);
 };
 

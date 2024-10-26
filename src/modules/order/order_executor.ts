@@ -55,6 +55,7 @@ export class OrderExecutor {
             return;
          }
 
+         // order not known by exchange cleanup
          const lastExchangeOrder = await exchange.findOrderById(exchangeOrder.id);
          if (!lastExchangeOrder || lastExchangeOrder.status !== ExchangeOrder.STATUS_OPEN) {
             this.logger.debug(`OrderAdjust: managed order does not exists maybe filled; cleanup: ${JSON.stringify([exchangeOrder.id, exchangeName, pairState.getSymbol(), lastExchangeOrder])}`);
@@ -64,6 +65,7 @@ export class OrderExecutor {
 
          const orderUpdate = Order.createPriceUpdateOrder(exchangeOrder.id, price, exchangeOrder.getLongOrShortSide());
 
+         // normalize prices for positions compare; we can have negative prices depending on "side"
          if (Math.abs(lastExchangeOrder.price) === Math.abs(price)) {
             this.logger.info(`OrderAdjust: No price update needed:${JSON.stringify([lastExchangeOrder.id, Math.abs(lastExchangeOrder.price), Math.abs(price), exchangeName, pairState.getSymbol()])}`);
             delete this.runningOrders[exchangeOrder.id];
@@ -77,10 +79,14 @@ export class OrderExecutor {
                this.logger.info(`OrderAdjust: Order adjusted with orderbook price: ${JSON.stringify([updatedOrder.id, Math.abs(lastExchangeOrder.price), Math.abs(price), exchangeName, pairState.getSymbol(), updatedOrder])}`);
                pairState.setExchangeOrder(updatedOrder);
             } else if (updatedOrder && updatedOrder.status === ExchangeOrder.STATUS_CANCELED && updatedOrder.retry === true) {
+               // we update the price outside the orderbook price range on PostOnly we will cancel the order directly
                this.logger.error(`OrderAdjust: Updated order canceled recreate: ${JSON.stringify(pairState, updatedOrder)}`);
 
+               // recreate order
+               // @TODO: resync used balance in case on order is partially filled
                const amount = lastExchangeOrder.getLongOrShortSide() === ExchangeOrder.SIDE_LONG ? Math.abs(lastExchangeOrder.amount) : Math.abs(lastExchangeOrder.amount) * -1;
 
+               // create a retry order with the order amount we had before; eg if partially filled
                const retryOrder = pairState.getState() === PairState.STATE_CLOSE ? Order.createCloseOrderWithPriceAdjustment(pairState.getSymbol(), amount) : Order.createLimitPostOnlyOrderAutoAdjustedPriceOrder(pairState.getSymbol(), amount);
 
                this.logger.error(`OrderAdjust: replacing canceled order: ${JSON.stringify(retryOrder)}`);
@@ -100,6 +106,13 @@ export class OrderExecutor {
       return Promise.all(pairStates.map((pairState) => visitExchangeOrder(pairState)));
    }
 
+   /**
+    * Exchanges need "amount" and "price" to be normalized for creating orders, allow this to happen here
+    *
+    * @param exchangeName
+    * @param {Order} order
+    * @returns {Promise<unknown>}
+    */
    async executeOrderWithAmountAndPrice(exchangeName: string, order: Order) {
       const exchangeInstance = this.exchangeManager.get(exchangeName);
       if (!exchangeInstance) {
@@ -215,6 +228,13 @@ export class OrderExecutor {
       console.log(`Order created: ${JSON.stringify([exchangeOrder.id, exchangeName, exchangeOrder.symbol])}`);
    }
 
+   /**
+    * Follow orderbook aks / bid to be the first on the list
+    *
+    * @param exchangeName
+    * @param order
+    * @returns {Promise<*>}
+    */
    async createAdjustmentOrder(exchangeName: string, order: Order) {
       const price = (await this.getCurrentPrice(exchangeName, order.symbol, order.side)) as number;
       if (!price) {
@@ -225,6 +245,14 @@ export class OrderExecutor {
       return Order.createRetryOrderWithPriceAdjustment(order, price);
    }
 
+   /**
+    * Get current price based on the ticker. This function is block and waiting until getting an up to date ticker price
+    *
+    * @param exchangeName
+    * @param symbol
+    * @param side
+    * @returns {Promise<any>}
+    */
    async getCurrentPrice(exchangeName: string, symbol: string, side: string) {
       if (!['long', 'short'].includes(side)) {
          throw new Error(`Invalid side: ${side}`);
@@ -240,6 +268,7 @@ export class OrderExecutor {
          await wait(this.tickerPriceInterval);
       }
 
+      // fallback
       const fallbackTicker = this.tickers.get(exchangeName, symbol);
       if (!fallbackTicker) {
          this.logger.error(`OrderExecutor: ticker price not found: ${JSON.stringify([exchangeName, symbol, side])}`);

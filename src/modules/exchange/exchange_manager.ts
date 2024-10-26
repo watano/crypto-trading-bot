@@ -33,7 +33,7 @@ export class ExchangeManager {
             symbols[exchangeName] = pairs;
          });
 
-      const activeExchanges = exchanges.filter((exchange) => exchange.getName() in symbols);
+      const activeExchanges = exchanges.filter((exchange: any) => exchange.getName() in symbols);
 
       activeExchanges.forEach((activeExchange) => activeExchange.start(_.get(this.config, `exchanges.${activeExchange.getName()}`, {}), symbols[activeExchange.getName()]));
 

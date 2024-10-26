@@ -1,3 +1,4 @@
+import { Position } from '~/src/dict/position';
 import { ExchangeOrder } from '../../dict/exchange_order';
 import { Order } from '../../dict/order';
 import * as OrderUtil from '../../utils/order_util';
@@ -9,7 +10,7 @@ export class RiskRewardRatioCalculator {
       this.logger = logger;
    }
 
-   calculateForOpenPosition(position: { entry: number; side: string }, options: { stop_percent: number; target_percent: number } = { stop_percent: 3, target_percent: 6 }): { stop?: number; target?: number } | undefined {
+   calculateForOpenPosition(position: Position, options: { stop_percent: number; target_percent: number } = { stop_percent: 3, target_percent: 6 }): { stop?: number; target?: number } | undefined {
       let entryPrice = position.entry;
       if (!entryPrice) {
          this.logger.info(`Invalid position entryPrice for stop loss:${JSON.stringify(position)}`);
@@ -34,7 +35,7 @@ export class RiskRewardRatioCalculator {
       return result;
    }
 
-   async syncRatioRewardOrders(position: { entry: number; side: string; amount: number; isLong: () => boolean }, orders: Order[], options: { stop_percent: number; target_percent: number }): Promise<{ stop?: Order; target?: Order }> {
+   async syncRatioRewardOrders(position: Position, orders: Order[], options: { stop_percent: number; target_percent: number }): Promise<{ stop?: Order; target?: Order }> {
       const newOrders: any = {};
 
       const riskRewardRatio = this.calculateForOpenPosition(position, options);
@@ -100,7 +101,7 @@ export class RiskRewardRatioCalculator {
       return newOrders;
    }
 
-   async createRiskRewardOrdersOrders(position: { entry: number; side: string; amount: number; isLong: () => boolean }, orders: Order[], options: { stop_percent: number; target_percent: number }): Promise<Order[]> {
+   async createRiskRewardOrdersOrders(position: Position, orders: Order[], options: { stop_percent: number; target_percent: number }): Promise<Order[]> {
       const ratioOrders = await this.syncRatioRewardOrders(position, orders, options);
 
       const newOrders: Order[] = [];

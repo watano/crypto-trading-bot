@@ -16,8 +16,8 @@ default: help
 help:
    just -l
 # run test
-test case="exchange/utils/order_bag":
-   bun test --timeout 6000000 --watch ./test/{{case}}.test.ts
+test case="test/exchange/utils/order_bag.test.ts":
+   bun test --timeout 6000000 --watch {{case}}
 
 # check codes
 check:

@@ -1,4 +1,5 @@
 import _ from 'lodash';
+import { TickerEvent } from '~/src/event/ticker_event';
 
 export class TickerDatabaseListener {
    private throttle: { [key: string]: any };
@@ -20,7 +21,7 @@ export class TickerDatabaseListener {
       }, 1000 * 15);
    }
 
-   onTicker(tickerEvent: { ticker: any }): void {
+   onTicker(tickerEvent: TickerEvent): void {
       const { ticker } = tickerEvent;
       this.throttle[ticker.symbol + ticker.exchange] = ticker;
    }

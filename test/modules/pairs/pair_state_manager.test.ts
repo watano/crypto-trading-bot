@@ -82,7 +82,7 @@ describe('#pair state manager', () => {
       }
    });
 
-   it.skip('test pair state provides callback and calls internal functions', async () => {
+   it('test pair state provides callback and calls internal functions', async () => {
       let addIntervalCallback: any;
 
       let onPairStateExecutionTick: PairState | undefined;

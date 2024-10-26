@@ -1,4 +1,5 @@
 import { describe, expect, it } from 'bun:test';
+import assert from 'node:assert';
 import { Logger } from 'tslog';
 import { Position } from '~/src/dict/position';
 import { Ticker } from '~/src/dict/ticker';
@@ -13,13 +14,20 @@ describe('#stop loss order calculation', () => {
       tickers.set(new Ticker('noop', 'BTCUSD', 0, 6500.66, 6502.99));
       const calculator = new StopLossCalculator(tickers, fakeLogger);
 
-      const result = await calculator.calculateForOpenPosition('noop', new Position('BTCUSD', 'long', 0.15, 6500.66, new Date(), 6501.76));
+      const result = await calculator.calculateForOpenPosition(
+         'noop', //
+         new Position('BTCUSD', 'long', 0.15, 6500.66, new Date(), 6501.76),
+      );
 
-      expect(result?.toFixed(1)).toBe('-6306.7');
+      assert.equal(result?.toFixed(1), '-6306.7');
 
-      const result2 = await calculator.calculateForOpenPosition('noop', new Position('BTCUSD', 'long', 0.15, 6500.66, new Date(), 6501.76), { percent: 5 });
+      const result2 = await calculator.calculateForOpenPosition(
+         'noop', //
+         new Position('BTCUSD', 'long', 0.15, 6500.66, new Date(), 6501.76),
+         { percent: 5 },
+      );
 
-      expect(result2?.toFixed(1)).toBe('-6176.7');
+      assert.equal(result2?.toFixed(1), '-6176.7');
    });
 
    it('calculate stop lose for short', async () => {
@@ -28,20 +36,26 @@ describe('#stop loss order calculation', () => {
 
       const calculator = new StopLossCalculator(tickers, fakeLogger);
 
-      const result = await calculator.calculateForOpenPosition('noop', new Position('BTCUSD', 'short', -0.15, 6500.66, new Date(), 6501.76));
+      const result = await calculator.calculateForOpenPosition(
+         'noop', //
+         new Position('BTCUSD', 'short', -0.15, 6500.66, new Date(), 6501.76),
+      );
 
-      expect(result?.toFixed(1)).toBe('6696.8');
+      assert.equal(result?.toFixed(1), '6696.8');
    });
 
-   it.skip('calculate stop lose invalid option', async () => {
+   it('calculate stop lose invalid option', async () => {
       const tickers = new Tickers();
       tickers.set(new Ticker('noop', 'BTCUSD', 0, 6500.66, 6502.99));
 
       const calculator = new StopLossCalculator(tickers, fakeLogger);
 
-      const result = await calculator.calculateForOpenPosition('noop', new Position('BTCUSD', 'short', -0.15, 6500.66, new Date(), 6501.76));
-
-      expect(result).toBeUndefined();
+      const result = await calculator.calculateForOpenPosition(
+         'noop', //
+         new Position('BTCUSD', 'short', -0.15, 6500.66, new Date(), 6501.76),
+         {},
+      );
+      assert.equal(result, undefined);
    });
 
    it('calculate stop lose with higher ticker (long)', async () => {
@@ -50,9 +64,12 @@ describe('#stop loss order calculation', () => {
 
       const calculator = new StopLossCalculator(tickers, fakeLogger);
 
-      const result = await calculator.calculateForOpenPosition('noop', new Position('BTCUSD', 'long', 0.15, 6500.66, new Date(), 6501.76));
+      const result = await calculator.calculateForOpenPosition(
+         'noop', //
+         new Position('BTCUSD', 'long', 0.15, 6500.66, new Date(), 6501.76),
+      );
 
-      expect(result).toBeUndefined();
+      assert.equal(result, undefined);
    });
 
    it('calculate stop lose with higher ticker (short)', async () => {
@@ -61,8 +78,11 @@ describe('#stop loss order calculation', () => {
 
       const calculator = new StopLossCalculator(tickers, fakeLogger);
 
-      const result = await calculator.calculateForOpenPosition('noop', new Position('BTCUSD', 'short', -0.15, 6500.66, new Date(), 6501.76));
+      const result = await calculator.calculateForOpenPosition(
+         'noop', //
+         new Position('BTCUSD', 'short', -0.15, 6500.66, new Date(), 6501.76),
+      );
 
-      expect(result).toBeUndefined();
+      assert.equal(result, undefined);
    });
 });

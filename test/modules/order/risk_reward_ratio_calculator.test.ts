@@ -51,20 +51,34 @@ describe('#risk reward order calculation', () => {
       assert.deepEqual(result.target, { amount: 0.15, price: -6518.0144 });
 
       // target create
-      assert.deepEqual(await calculator.syncRatioRewardOrders(position, [new ExchangeOrder('foobar', 'BTUSD', 'open', 1337, 0.15, false, 'our_id', 'buy', 'stop')], { stop_percent: 0.5, target_percent: 0.25 }), {
-         target: {
-            amount: 0.15,
-            price: -6518.0144,
+      assert.deepEqual(
+         await calculator.syncRatioRewardOrders(
+            position, //
+            [new ExchangeOrder('foobar', 'BTUSD', 'open', 1337, 0.15, false, 'our_id', 'buy', 'stop')],
+            { stop_percent: 0.5, target_percent: 0.25 },
+         ),
+         {
+            target: {
+               amount: 0.15,
+               price: -6518.0144,
+            },
          },
-      });
+      );
 
       // stop create
-      assert.deepEqual(await calculator.syncRatioRewardOrders(position, [new ExchangeOrder('foobar', 'BTUSD', 'open', 1337, 0.15, false, 'our_id', 'buy', 'limit')], { stop_percent: 0.5, target_percent: 0.25 }), {
-         stop: {
-            amount: 0.15,
-            price: -6469.251200000001,
+      assert.deepEqual(
+         await calculator.syncRatioRewardOrders(
+            position, //
+            [new ExchangeOrder('foobar', 'BTUSD', 'open', 1337, 0.15, false, 'our_id', 'buy', 'limit')],
+            { stop_percent: 0.5, target_percent: 0.25 },
+         ),
+         {
+            stop: {
+               amount: 0.15,
+               price: -6469.251200000001,
+            },
          },
-      });
+      );
    });
 
    it('update risk reward ratio changeset orders (long)', async () => {
@@ -72,8 +86,28 @@ describe('#risk reward order calculation', () => {
 
       const position = new Position('BTCUSD', 'long', 0.15, 0, new Date(), 6501.76);
       const orders = [
-         new ExchangeOrder('12345-12345', '', '', 6601.76, 0.2, false, undefined, 'sell', ExchangeOrder.TYPE_STOP), //
-         new ExchangeOrder('54321-54321', '', '', 6401.76, 0.2, false, undefined, 'buy', ExchangeOrder.TYPE_LIMIT),
+         new ExchangeOrder(
+            '12345-12345', //
+            '',
+            '',
+            6601.76,
+            0.2,
+            false,
+            undefined,
+            'sell',
+            ExchangeOrder.TYPE_STOP,
+         ), //
+         new ExchangeOrder(
+            '54321-54321', //
+            '',
+            '',
+            6401.76,
+            0.2,
+            false,
+            undefined,
+            'buy',
+            ExchangeOrder.TYPE_LIMIT,
+         ),
       ];
 
       const result = await calculator.syncRatioRewardOrders(position, orders, {
@@ -96,20 +130,34 @@ describe('#risk reward order calculation', () => {
       assert.deepEqual(result.target, { amount: 0.15, price: 6485.5056 });
 
       // target create
-      assert.deepEqual(await calculator.syncRatioRewardOrders(position, [new ExchangeOrder('foobar', 'BTUSD', 'open', 1337, 0.15, false, 'our_id', 'buy', 'stop')], { stop_percent: 0.5, target_percent: 0.25 }), {
-         target: {
-            amount: 0.15,
-            price: 6485.5056,
+      assert.deepEqual(
+         await calculator.syncRatioRewardOrders(
+            position, //
+            [new ExchangeOrder('foobar', 'BTUSD', 'open', 1337, 0.15, false, 'our_id', 'buy', 'stop')],
+            { stop_percent: 0.5, target_percent: 0.25 },
+         ),
+         {
+            target: {
+               amount: 0.15,
+               price: 6485.5056,
+            },
          },
-      });
+      );
 
       // stop create
-      assert.deepEqual(await calculator.syncRatioRewardOrders(position, [new ExchangeOrder('foobar', 'BTUSD', 'open', 1337, 0.15, false, 'our_id', 'buy', 'limit')], { stop_percent: 0.5, target_percent: 0.25 }), {
-         stop: {
-            amount: 0.15,
-            price: 6534.2688,
+      assert.deepEqual(
+         await calculator.syncRatioRewardOrders(
+            position, //
+            [new ExchangeOrder('foobar', 'BTUSD', 'open', 1337, 0.15, false, 'our_id', 'buy', 'limit')],
+            { stop_percent: 0.5, target_percent: 0.25 },
+         ),
+         {
+            stop: {
+               amount: 0.15,
+               price: 6534.2688,
+            },
          },
-      });
+      );
    });
 
    it('update risk reward ratio changeset orders (short)', async () => {
@@ -189,12 +237,14 @@ describe('#risk reward order calculation', () => {
       assert.strictEqual(stopOrder.amount, -0.15);
    });
 
-   //FIXME
-   it.skip('create risk reward ratio orders updates for short', async () => {
+   it('create risk reward ratio orders updates for short', async () => {
       const calculator = new RiskRewardRatioCalculator(fakeLogger);
       const position = new Position('BTCUSD', 'short', -0.15, 0, new Date(), 6501.76);
 
-      const openExchangeOrders = [new ExchangeOrder('123', 'FOOUSD', 'open', 6500.76, 0.11, false, undefined, 'buy', ExchangeOrder.TYPE_LIMIT), new ExchangeOrder('321', 'FOOUSD', 'open', 6520.76, 0.11, false, undefined, 'buy', ExchangeOrder.TYPE_STOP)];
+      const openExchangeOrders = [
+         new ExchangeOrder('123', 'FOOUSD', 'open', 6500.76, 0.11, false, undefined, 'buy', ExchangeOrder.TYPE_LIMIT), //
+         new ExchangeOrder('321', 'FOOUSD', 'open', 6520.76, 0.11, false, undefined, 'buy', ExchangeOrder.TYPE_STOP),
+      ];
 
       const orders = await calculator.createRiskRewardOrdersOrders(position, openExchangeOrders, {
          stop_percent: 0.5,
@@ -202,13 +252,13 @@ describe('#risk reward order calculation', () => {
       });
 
       // stop should close
-      const limitOrder: any = orders.find((order: any) => order.id === 321);
-      assert.strictEqual(limitOrder.id, 321);
+      const limitOrder: any = orders.find((order: any) => order.id === '321');
+      assert.strictEqual(limitOrder.id, '321');
       assert.strictEqual(limitOrder.amount, 0.15);
 
       // stop should close
-      const stopOrder: any = orders.find((order: any) => order.id === 123);
-      assert.strictEqual(stopOrder.id, 123);
+      const stopOrder: any = orders.find((order: any) => order.id === '123');
+      assert.strictEqual(stopOrder.id, '123');
       assert.strictEqual(stopOrder.amount, 0.15);
    });
 

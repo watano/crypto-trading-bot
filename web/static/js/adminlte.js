@@ -3,11 +3,11 @@
  * Copyright 2014-2019 Colorlib <http://colorlib.com>
  * Licensed under MIT (https://github.com/ColorlibHQ/AdminLTE/blob/master/LICENSE)
  */
-(function (global, factory) {
+(((global, factory) => {
   typeof exports === 'object' && typeof module !== 'undefined' ? factory(exports) :
   typeof define === 'function' && define.amd ? define(['exports'], factory) :
   (global = global || self, factory(global.adminlte = {}));
-}(this, (function (exports) { 'use strict';
+})(this, ((exports) => { 
 
   /**
    * --------------------------------------------
@@ -15,7 +15,7 @@
    * License MIT
    * --------------------------------------------
    */
-  var ControlSidebar = function ($) {
+  var ControlSidebar = (($) => {
     /**
      * Constants
      * ====================================================
@@ -64,7 +64,7 @@
 
     var ControlSidebar =
     /*#__PURE__*/
-    function () {
+    (() => {
       function ControlSidebar(element, config) {
         this._element = element;
         this._config = config;
@@ -125,20 +125,19 @@
       ;
 
       _proto._init = function _init() {
-        var _this = this;
 
         this._fixHeight();
 
         this._fixScrollHeight();
 
-        $(window).resize(function () {
-          _this._fixHeight();
+        $(window).resize(() => {
+          this._fixHeight();
 
-          _this._fixScrollHeight();
+          this._fixScrollHeight();
         });
-        $(window).scroll(function () {
+        $(window).scroll(() => {
           if ($('body').hasClass(ClassName.CONTROL_SIDEBAR_OPEN) || $('body').hasClass(ClassName.CONTROL_SIDEBAR_SLIDE)) {
-            _this._fixScrollHeight();
+            this._fixScrollHeight();
           }
         });
       };
@@ -251,7 +250,7 @@
       };
 
       return ControlSidebar;
-    }();
+    })();
     /**
      *
      * Data Api implementation
@@ -272,13 +271,13 @@
     $.fn[NAME] = ControlSidebar._jQueryInterface;
     $.fn[NAME].Constructor = ControlSidebar;
 
-    $.fn[NAME].noConflict = function () {
+    $.fn[NAME].noConflict = () => {
       $.fn[NAME] = JQUERY_NO_CONFLICT;
       return ControlSidebar._jQueryInterface;
     };
 
     return ControlSidebar;
-  }(jQuery);
+  })(jQuery);
 
   /**
    * --------------------------------------------
@@ -286,7 +285,7 @@
    * License MIT
    * --------------------------------------------
    */
-  var Layout = function ($) {
+  var Layout = (($) => {
     /**
      * Constants
      * ====================================================
@@ -331,7 +330,7 @@
 
     var Layout =
     /*#__PURE__*/
-    function () {
+    (() => {
       function Layout(element, config) {
         this._config = config;
         this._element = element;
@@ -376,18 +375,17 @@
       ;
 
       _proto._init = function _init() {
-        var _this = this;
 
         // Activate layout height watcher
         this.fixLayoutHeight();
-        $(Selector.SIDEBAR).on('collapsed.lte.treeview expanded.lte.treeview', function () {
-          _this.fixLayoutHeight();
+        $(Selector.SIDEBAR).on('collapsed.lte.treeview expanded.lte.treeview', () => {
+          this.fixLayoutHeight();
         });
-        $(Selector.PUSHMENU_BTN).on('collapsed.lte.pushmenu shown.lte.pushmenu', function () {
-          _this.fixLayoutHeight();
+        $(Selector.PUSHMENU_BTN).on('collapsed.lte.pushmenu shown.lte.pushmenu', () => {
+          this.fixLayoutHeight();
         });
-        $(window).resize(function () {
-          _this.fixLayoutHeight();
+        $(window).resize(() => {
+          this.fixLayoutHeight();
         });
 
         if (!$('body').hasClass(ClassName.LOGIN_PAGE) && !$('body').hasClass(ClassName.REGISTER_PAGE)) {
@@ -403,7 +401,7 @@
       _proto._max = function _max(numbers) {
         // Calculate the maximum number in a list
         var max = 0;
-        Object.keys(numbers).forEach(function (key) {
+        Object.keys(numbers).forEach((key) => {
           if (numbers[key] > max) {
             max = numbers[key];
           }
@@ -430,20 +428,20 @@
       };
 
       return Layout;
-    }();
+    })();
     /**
      * Data API
      * ====================================================
      */
 
 
-    $(window).on('load', function () {
+    $(window).on('load', () => {
       Layout._jQueryInterface.call($('body'));
     });
-    $(Selector.SIDEBAR + ' a').on('focusin', function () {
+    $(Selector.SIDEBAR + ' a').on('focusin', () => {
       $(Selector.MAIN_SIDEBAR).addClass(ClassName.SIDEBAR_FOCUSED);
     });
-    $(Selector.SIDEBAR + ' a').on('focusout', function () {
+    $(Selector.SIDEBAR + ' a').on('focusout', () => {
       $(Selector.MAIN_SIDEBAR).removeClass(ClassName.SIDEBAR_FOCUSED);
     });
     /**
@@ -454,13 +452,13 @@
     $.fn[NAME] = Layout._jQueryInterface;
     $.fn[NAME].Constructor = Layout;
 
-    $.fn[NAME].noConflict = function () {
+    $.fn[NAME].noConflict = () => {
       $.fn[NAME] = JQUERY_NO_CONFLICT;
       return Layout._jQueryInterface;
     };
 
     return Layout;
-  }(jQuery);
+  })(jQuery);
 
   /**
    * --------------------------------------------
@@ -468,7 +466,7 @@
    * License MIT
    * --------------------------------------------
    */
-  var PushMenu = function ($) {
+  var PushMenu = (($) => {
     /**
      * Constants
      * ====================================================
@@ -506,7 +504,7 @@
 
     var PushMenu =
     /*#__PURE__*/
-    function () {
+    (() => {
       function PushMenu(element, options) {
         this._element = element;
         this._options = $.extend({}, Default, options);
@@ -609,23 +607,21 @@
       ;
 
       _proto._init = function _init() {
-        var _this = this;
 
         this.remember();
         this.autoCollapse();
-        $(window).resize(function () {
-          _this.autoCollapse(true);
+        $(window).resize(() => {
+          this.autoCollapse(true);
         });
       };
 
       _proto._addOverlay = function _addOverlay() {
-        var _this2 = this;
 
         var overlay = $('<div />', {
           id: 'sidebar-overlay'
         });
-        overlay.on('click', function () {
-          _this2.collapse();
+        overlay.on('click', () => {
+          this.collapse();
         });
         $(Selector.WRAPPER).append(overlay);
       } // Static
@@ -649,14 +645,14 @@
       };
 
       return PushMenu;
-    }();
+    })();
     /**
      * Data API
      * ====================================================
      */
 
 
-    $(document).on('click', Selector.TOGGLE_BUTTON, function (event) {
+    $(document).on('click', Selector.TOGGLE_BUTTON, (event) => {
       event.preventDefault();
       var button = event.currentTarget;
 
@@ -666,7 +662,7 @@
 
       PushMenu._jQueryInterface.call($(button), 'toggle');
     });
-    $(window).on('load', function () {
+    $(window).on('load', () => {
       PushMenu._jQueryInterface.call($(Selector.TOGGLE_BUTTON));
     });
     /**
@@ -677,13 +673,13 @@
     $.fn[NAME] = PushMenu._jQueryInterface;
     $.fn[NAME].Constructor = PushMenu;
 
-    $.fn[NAME].noConflict = function () {
+    $.fn[NAME].noConflict = () => {
       $.fn[NAME] = JQUERY_NO_CONFLICT;
       return PushMenu._jQueryInterface;
     };
 
     return PushMenu;
-  }(jQuery);
+  })(jQuery);
 
   /**
    * --------------------------------------------
@@ -691,7 +687,7 @@
    * License MIT
    * --------------------------------------------
    */
-  var Treeview = function ($) {
+  var Treeview = (($) => {
     /**
      * Constants
      * ====================================================
@@ -734,7 +730,7 @@
 
     var Treeview =
     /*#__PURE__*/
-    function () {
+    (() => {
       function Treeview(element, config) {
         this._config = config;
         this._element = element;
@@ -748,7 +744,6 @@
       };
 
       _proto.expand = function expand(treeviewMenu, parentLi) {
-        var _this = this;
 
         var expandedEvent = $.Event(Event.EXPANDED);
 
@@ -758,9 +753,9 @@
           this.collapse(openTreeview, openMenuLi);
         }
 
-        treeviewMenu.stop().slideDown(this._config.animationSpeed, function () {
+        treeviewMenu.stop().slideDown(this._config.animationSpeed, () => {
           parentLi.addClass(ClassName.OPEN);
-          $(_this._element).trigger(expandedEvent);
+          $(this._element).trigger(expandedEvent);
         });
 
         if (this._config.expandSidebar) {
@@ -769,12 +764,11 @@
       };
 
       _proto.collapse = function collapse(treeviewMenu, parentLi) {
-        var _this2 = this;
 
         var collapsedEvent = $.Event(Event.COLLAPSED);
-        treeviewMenu.stop().slideUp(this._config.animationSpeed, function () {
+        treeviewMenu.stop().slideUp(this._config.animationSpeed, () => {
           parentLi.removeClass(ClassName.OPEN);
-          $(_this2._element).trigger(collapsedEvent);
+          $(this._element).trigger(collapsedEvent);
           treeviewMenu.find(Selector.OPEN + " > " + Selector.TREEVIEW_MENU).slideUp();
           treeviewMenu.find(Selector.OPEN).removeClass(ClassName.OPEN);
         });
@@ -808,10 +802,9 @@
       ;
 
       _proto._setupListeners = function _setupListeners() {
-        var _this3 = this;
 
-        $(document).on('click', this._config.trigger, function (event) {
-          _this3.toggle(event);
+        $(document).on('click', this._config.trigger, (event) => {
+          this.toggle(event);
         });
       };
 
@@ -840,14 +833,14 @@
       };
 
       return Treeview;
-    }();
+    })();
     /**
      * Data API
      * ====================================================
      */
 
 
-    $(window).on(Event.LOAD_DATA_API, function () {
+    $(window).on(Event.LOAD_DATA_API, () => {
       $(Selector.DATA_WIDGET).each(function () {
         Treeview._jQueryInterface.call($(this), 'init');
       });
@@ -860,13 +853,13 @@
     $.fn[NAME] = Treeview._jQueryInterface;
     $.fn[NAME].Constructor = Treeview;
 
-    $.fn[NAME].noConflict = function () {
+    $.fn[NAME].noConflict = () => {
       $.fn[NAME] = JQUERY_NO_CONFLICT;
       return Treeview._jQueryInterface;
     };
 
     return Treeview;
-  }(jQuery);
+  })(jQuery);
 
   /**
    * --------------------------------------------
@@ -874,7 +867,7 @@
    * License MIT
    * --------------------------------------------
    */
-  var DirectChat = function ($) {
+  var DirectChat = (($) => {
     /**
      * Constants
      * ====================================================
@@ -899,7 +892,7 @@
 
     var DirectChat =
     /*#__PURE__*/
-    function () {
+    (() => {
       function DirectChat(element, config) {
         this._element = element;
       }
@@ -927,7 +920,7 @@
       };
 
       return DirectChat;
-    }();
+    })();
     /**
      *
      * Data Api implementation
@@ -948,13 +941,13 @@
     $.fn[NAME] = DirectChat._jQueryInterface;
     $.fn[NAME].Constructor = DirectChat;
 
-    $.fn[NAME].noConflict = function () {
+    $.fn[NAME].noConflict = () => {
       $.fn[NAME] = JQUERY_NO_CONFLICT;
       return DirectChat._jQueryInterface;
     };
 
     return DirectChat;
-  }(jQuery);
+  })(jQuery);
 
   /**
    * --------------------------------------------
@@ -962,7 +955,7 @@
    * License MIT
    * --------------------------------------------
    */
-  var TodoList = function ($) {
+  var TodoList = (($) => {
     /**
      * Constants
      * ====================================================
@@ -991,7 +984,7 @@
 
     var TodoList =
     /*#__PURE__*/
-    function () {
+    (() => {
       function TodoList(element, config) {
         this._config = config;
         this._element = element;
@@ -1023,10 +1016,9 @@
       ;
 
       _proto._init = function _init() {
-        var that = this;
         $(Selector.DATA_TOGGLE).find('input:checkbox:checked').parents('li').toggleClass(ClassName.TODO_LIST_DONE);
-        $(Selector.DATA_TOGGLE).on('change', 'input:checkbox', function (event) {
-          that.toggle($(event.target));
+        $(Selector.DATA_TOGGLE).on('change', 'input:checkbox', (event) => {
+          this.toggle($(event.target));
         });
       } // Static
       ;
@@ -1049,14 +1041,14 @@
       };
 
       return TodoList;
-    }();
+    })();
     /**
      * Data API
      * ====================================================
      */
 
 
-    $(window).on('load', function () {
+    $(window).on('load', () => {
       TodoList._jQueryInterface.call($(Selector.DATA_TOGGLE));
     });
     /**
@@ -1067,13 +1059,13 @@
     $.fn[NAME] = TodoList._jQueryInterface;
     $.fn[NAME].Constructor = TodoList;
 
-    $.fn[NAME].noConflict = function () {
+    $.fn[NAME].noConflict = () => {
       $.fn[NAME] = JQUERY_NO_CONFLICT;
       return TodoList._jQueryInterface;
     };
 
     return TodoList;
-  }(jQuery);
+  })(jQuery);
 
   /**
    * --------------------------------------------
@@ -1081,7 +1073,7 @@
    * License MIT
    * --------------------------------------------
    */
-  var CardWidget = function ($) {
+  var CardWidget = (($) => {
     /**
      * Constants
      * ====================================================
@@ -1126,7 +1118,7 @@
 
     var CardWidget =
     /*#__PURE__*/
-    function () {
+    (() => {
       function CardWidget(element, settings) {
         this._element = element;
         this._parent = element.parents(Selector.CARD).first();
@@ -1141,10 +1133,9 @@
       var _proto = CardWidget.prototype;
 
       _proto.collapse = function collapse() {
-        var _this = this;
 
-        this._parent.children(Selector.CARD_BODY + ", " + Selector.CARD_FOOTER).slideUp(this._settings.animationSpeed, function () {
-          _this._parent.addClass(ClassName.COLLAPSED);
+        this._parent.children(Selector.CARD_BODY + ", " + Selector.CARD_FOOTER).slideUp(this._settings.animationSpeed, () => {
+          this._parent.addClass(ClassName.COLLAPSED);
         });
 
         this._parent.find(this._settings.collapseTrigger + ' .' + this._settings.collapseIcon).addClass(this._settings.expandIcon).removeClass(this._settings.collapseIcon);
@@ -1155,10 +1146,9 @@
       };
 
       _proto.expand = function expand() {
-        var _this2 = this;
 
-        this._parent.children(Selector.CARD_BODY + ", " + Selector.CARD_FOOTER).slideDown(this._settings.animationSpeed, function () {
-          _this2._parent.removeClass(ClassName.COLLAPSED);
+        this._parent.children(Selector.CARD_BODY + ", " + Selector.CARD_FOOTER).slideDown(this._settings.animationSpeed, () => {
+          this._parent.removeClass(ClassName.COLLAPSED);
         });
 
         this._parent.find(this._settings.collapseTrigger + ' .' + this._settings.expandIcon).addClass(this._settings.collapseIcon).removeClass(this._settings.expandIcon);
@@ -1242,17 +1232,16 @@
       ;
 
       _proto._init = function _init(card) {
-        var _this3 = this;
 
         this._parent = card;
-        $(this).find(this._settings.collapseTrigger).click(function () {
-          _this3.toggle();
+        $(this).find(this._settings.collapseTrigger).click(() => {
+          this.toggle();
         });
-        $(this).find(this._settings.maximizeTrigger).click(function () {
-          _this3.toggleMaximize();
+        $(this).find(this._settings.maximizeTrigger).click(() => {
+          this.toggleMaximize();
         });
-        $(this).find(this._settings.removeTrigger).click(function () {
-          _this3.remove();
+        $(this).find(this._settings.removeTrigger).click(() => {
+          this.remove();
         });
       } // Static
       ;
@@ -1275,7 +1264,7 @@
       };
 
       return CardWidget;
-    }();
+    })();
     /**
      * Data API
      * ====================================================
@@ -1311,13 +1300,13 @@
     $.fn[NAME] = CardWidget._jQueryInterface;
     $.fn[NAME].Constructor = CardWidget;
 
-    $.fn[NAME].noConflict = function () {
+    $.fn[NAME].noConflict = () => {
       $.fn[NAME] = JQUERY_NO_CONFLICT;
       return CardWidget._jQueryInterface;
     };
 
     return CardWidget;
-  }(jQuery);
+  })(jQuery);
 
   /**
    * --------------------------------------------
@@ -1325,7 +1314,7 @@
    * License MIT
    * --------------------------------------------
    */
-  var CardRefresh = function ($) {
+  var CardRefresh = (($) => {
     /**
      * Constants
      * ====================================================
@@ -1364,7 +1353,7 @@
 
     var CardRefresh =
     /*#__PURE__*/
-    function () {
+    (() => {
       function CardRefresh(element, settings) {
         this._element = element;
         this._parent = element.parents(Selector.CARD).first();
@@ -1426,10 +1415,9 @@
 
       // Private
       _proto._init = function _init(card) {
-        var _this = this;
 
-        $(this).find(this._settings.trigger).on('click', function () {
-          _this.load();
+        $(this).find(this._settings.trigger).on('click', () => {
+          this.load();
         });
       } // Static
       ;
@@ -1452,7 +1440,7 @@
       };
 
       return CardRefresh;
-    }();
+    })();
     /**
      * Data API
      * ====================================================
@@ -1474,13 +1462,13 @@
     $.fn[NAME] = CardRefresh._jQueryInterface;
     $.fn[NAME].Constructor = CardRefresh;
 
-    $.fn[NAME].noConflict = function () {
+    $.fn[NAME].noConflict = () => {
       $.fn[NAME] = JQUERY_NO_CONFLICT;
       return CardRefresh._jQueryInterface;
     };
 
     return CardRefresh;
-  }(jQuery);
+  })(jQuery);
 
   /**
    * --------------------------------------------
@@ -1488,7 +1476,7 @@
    * License MIT
    * --------------------------------------------
    */
-  var Dropdown = function ($) {
+  var Dropdown = (($) => {
     /**
      * Constants
      * ====================================================
@@ -1508,7 +1496,7 @@
 
     var Dropdown =
     /*#__PURE__*/
-    function () {
+    (() => {
       function Dropdown(element, config) {
         this._config = config;
         this._element = element;
@@ -1524,7 +1512,7 @@
           this._element.parents('.dropdown-menu').first().find('.show').removeClass("show").hide();
         }
 
-        this._element.parents('li.nav-item.dropdown.show').on('hidden.bs.dropdown', function (e) {
+        this._element.parents('li.nav-item.dropdown.show').on('hidden.bs.dropdown', (e) => {
           $('.dropdown-submenu .show').removeClass("show").hide();
         });
       } // Static
@@ -1548,7 +1536,7 @@
       };
 
       return Dropdown;
-    }();
+    })();
     /**
      * Data API
      * ====================================================
@@ -1575,13 +1563,13 @@
     $.fn[NAME] = Dropdown._jQueryInterface;
     $.fn[NAME].Constructor = Dropdown;
 
-    $.fn[NAME].noConflict = function () {
+    $.fn[NAME].noConflict = () => {
       $.fn[NAME] = JQUERY_NO_CONFLICT;
       return Dropdown._jQueryInterface;
     };
 
     return Dropdown;
-  }(jQuery);
+  })(jQuery);
 
   /**
    * --------------------------------------------
@@ -1589,7 +1577,7 @@
    * License MIT
    * --------------------------------------------
    */
-  var Toasts = function ($) {
+  var Toasts = (($) => {
     /**
      * Constants
      * ====================================================
@@ -1647,7 +1635,7 @@
 
     var Toasts =
     /*#__PURE__*/
-    function () {
+    (() => {
       function Toasts(element, config) {
         this._config = config;
 
@@ -1778,7 +1766,7 @@
       };
 
       return Toasts;
-    }();
+    })();
     /**
      * jQuery API
      * ====================================================
@@ -1788,13 +1776,13 @@
     $.fn[NAME] = Toasts._jQueryInterface;
     $.fn[NAME].Constructor = Toasts;
 
-    $.fn[NAME].noConflict = function () {
+    $.fn[NAME].noConflict = () => {
       $.fn[NAME] = JQUERY_NO_CONFLICT;
       return Toasts._jQueryInterface;
     };
 
     return Toasts;
-  }(jQuery);
+  })(jQuery);
 
   exports.CardRefresh = CardRefresh;
   exports.CardWidget = CardWidget;

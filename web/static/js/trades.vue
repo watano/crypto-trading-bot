@@ -162,7 +162,7 @@ export default {
       this.ordersUpdatedAt = new Date().toLocaleTimeString();
     },
     formatPrice(value) {
-      if (parseFloat(value) < 1) {
+      if (Number.parseFloat(value) < 1) {
         return Intl.NumberFormat('en-US', {
           useGrouping: false,
           minimumFractionDigits: 2,

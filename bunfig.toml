@@ -1,0 +1,10 @@
+logLevel = "debug" # "debug" | "warn" | "error"
+[loader]
+# when a .bagel file is imported, treat it like a tsx file
+".bagel" = "tsx"
+[install]
+auto = "force"
+# set default registry as a string
+registry = "https://registry.npmmirror.com"
+# registry = "http://mirrors.cloud.tencent.com/npm/"
+

@@ -1,5 +1,5 @@
 // filter pairs
-$(function() {
+$(() => {
   var filterTimeout = null;
   $(".filter-pairs").keyup(function() {
     var me = $(this);
@@ -7,7 +7,7 @@ $(function() {
     if (filterTimeout != null) {
       clearTimeout(filterTimeout);
     }
-    filterTimeout = setTimeout(function() {
+    filterTimeout = setTimeout(() => {
       var filter = me.val();
 
       var table = $('.table-pairs');

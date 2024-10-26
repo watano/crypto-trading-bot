@@ -1,4 +1,4 @@
-$(function() {
+$(() => {
   $('form.backtest-form #form-strategies').change(function() {
     // get data as string
     const options = $(this)
@@ -27,7 +27,7 @@ $(function() {
         .find('#form-candle-period');
 
       optionTag.html('');
-      $.each(JSON.parse(options), function(key, value) {
+      $.each(JSON.parse(options), (key, value) => {
         optionTag.append($('<option>', { value: value }).text(value));
       });
     }

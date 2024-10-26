@@ -1,4 +1,4 @@
-$(function() {
+$(() => {
   $('table.backtest-table').on('click', 'a.button-debug-toggle', function(e) {
     e.preventDefault();
     $(this)
@@ -61,7 +61,7 @@ $(function() {
       .tradearrow()
       .xScale(x)
       .yScale(y)
-      .orient(function(d) {
+      .orient((d) => {
         switch (d.type) {
           case 'close':
             return 'left';
@@ -169,14 +169,10 @@ $(function() {
       .data([0, 1])
       .enter()
       .append('clipPath')
-      .attr('id', function(d, i) {
-        return `indicatorClip-${i}`;
-      })
+      .attr('id', (d, i) => `indicatorClip-${i}`)
       .append('rect')
       .attr('x', 0)
-      .attr('y', function(d, i) {
-        return indicatorTop(i);
-      })
+      .attr('y', (d, i) => indicatorTop(i))
       .attr('width', dim.plot.width)
       .attr('height', dim.indicator.height);
 
@@ -241,9 +237,9 @@ $(function() {
     const trades = [];
 
     const data = candles
-      .map(function(d) {
+      .map((d) => {
         if (d.signals && d.signals.length > 0) {
-          d.signals.forEach(function(trade) {
+          d.signals.forEach((trade) => {
             trades.push({
               date: new Date(d.date),
               type: trade.signal,
@@ -261,9 +257,7 @@ $(function() {
           volume: d.volume
         };
       })
-      .sort(function(a, b) {
-        return d3.ascending(accessor.d(a), accessor.d(b));
-      });
+      .sort((a, b) => d3.ascending(accessor.d(a), accessor.d(b)));
 
     x.domain(techan.scale.plot.time(data).domain());
     y.domain(techan.scale.plot.ohlc(data.slice()).domain());

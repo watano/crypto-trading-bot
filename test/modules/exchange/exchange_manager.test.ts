@@ -6,59 +6,24 @@ import { ExchangeManager } from '~/src/modules/exchange/exchange_manager';
 
 describe('#exchange manager', () => {
    it('test that exchanges are initialized', () => {
-      const symbols = [
-         {
-            symbol: 'BTCUSD',
-            periods: ['1m', '15m', '1h'],
-            exchange: 'noop',
-            state: 'watch',
-         },
-         {
-            symbol: 'BTCUSD',
-            periods: ['1m', '15m', '1h'],
-            exchange: 'FOOBAR',
-            state: 'watch',
-         },
-      ];
+      const symbols = [{ symbol: 'BTCUSD', periods: ['1m', '15m', '1h'], exchange: 'noop', state: 'watch' }, { symbol: 'BTCUSD', periods: ['1m', '15m', '1h'], exchange: 'FOOBAR', state: 'watch' }];
 
-      const config = {
-         noop: {
-            key: 'foobar',
-            secret: 'foobar',
-         },
-      };
+      const config = { noop: { key: 'foobar', secret: 'foobar' } };
 
       const exchangeManager = new ExchangeManager([new Noop()], {}, { symbols: symbols }, { exchanges: config });
 
       exchangeManager.init();
 
-      expect(
-         exchangeManager
-            .all()
-            .map((exchange) => exchange.getName())
-            .sort(),
-      ).toEqual(['noop']);
+      expect(exchangeManager.all().map((exchange) => exchange.getName()).sort()).toEqual(['noop']);
 
       expect(exchangeManager.get('noop')?.getName()).toBe('noop');
       expect(exchangeManager.get('UNKNOWN')).toBeUndefined();
    });
 
    it('test positions and orders', async () => {
-      const symbols = [
-         {
-            symbol: 'BTCUSD',
-            periods: ['1m', '15m', '1h'],
-            exchange: 'noop',
-            state: 'watch',
-         },
-      ];
+      const symbols = [{ symbol: 'BTCUSD', periods: ['1m', '15m', '1h'], exchange: 'noop', state: 'watch' }];
 
-      const config = {
-         noop: {
-            key: 'foobar',
-            secret: 'foobar',
-         },
-      };
+      const config = { noop: { key: 'foobar', secret: 'foobar' } };
 
       const exchange = new Noop();
       exchange.getPositionForSymbol = async (symbol: string) =>
@@ -83,7 +48,7 @@ describe('#exchange manager', () => {
       expect(position?.getSymbol()).toBe('BTCUSD');
 
       const order = await exchangeManager.getOrders('noop', 'BTCUSD');
-      //FIXME
+      // FIXME
       // expect(order[0]?.symbol).toBe('BTCUSD');
 
       const positions = await exchangeManager.getPositions();

@@ -12,9 +12,7 @@ export class AwesomeOscillatorCrossZero {
 
       indicatorBuilder.add('ao', 'ao', options.period, options);
 
-      indicatorBuilder.add('sma200', 'sma', options.period, {
-         length: 200,
-      });
+      indicatorBuilder.add('sma200', 'sma', options.period, { length: 200 });
    }
 
    async period(indicatorPeriod: any): Promise<SignalResult> {
@@ -30,11 +28,7 @@ export class AwesomeOscillatorCrossZero {
       const sma200 = sma200Full.slice(0, -1);
       const ao = aoFull.slice(0, -1);
 
-      const debug = {
-         sma200: sma200.slice(-1)[0],
-         ao: ao.slice(-1)[0],
-         last_signal: lastSignal,
-      };
+      const debug = { sma200: sma200.slice(-1)[0], ao: ao.slice(-1)[0], last_signal: lastSignal };
 
       const before = ao.slice(-2)[0];
       const last = ao.slice(-1)[0];
@@ -63,8 +57,6 @@ export class AwesomeOscillatorCrossZero {
    }
 
    getOptions(): any {
-      return {
-         period: '15m',
-      };
+      return { period: '15m' };
    }
 }

@@ -1,6 +1,6 @@
 import { describe, expect, it } from 'bun:test';
-import assert from 'node:assert';
 import moment from 'moment';
+import assert from 'node:assert';
 import { Ticker } from '~/src/dict/ticker';
 import { Tickers } from '~/src/storage/tickers';
 

@@ -23,12 +23,7 @@ export class PARABOL {
 
       const long = diff > 0;
 
-      const debug = {
-         psar: psar[0],
-         histogram: psar[0].histogram,
-         last_signal: lastSignal,
-         long: long,
-      };
+      const debug = { psar: psar[0], histogram: psar[0].histogram, last_signal: lastSignal, long: long };
 
       const current = psar[0].histogram;
       const before = psar[1].histogram;
@@ -54,29 +49,20 @@ export class PARABOL {
    }
 
    getBacktestColumns(): any[] {
-      return [
-         {
-            label: 'trend',
-            value: (row: any) => {
-               if (typeof row.long !== 'boolean') {
-                  return undefined;
-               }
+      return [{
+         label: 'trend',
+         value: (row: any) => {
+            if (typeof row.long !== 'boolean') {
+               return undefined;
+            }
 
-               return row.long === true ? 'success' : 'danger';
-            },
-            type: 'icon',
+            return row.long === true ? 'success' : 'danger';
          },
-         {
-            label: 'histogram',
-            value: 'histogram',
-            type: 'histogram',
-         },
-      ];
+         type: 'icon',
+      }, { label: 'histogram', value: 'histogram', type: 'histogram' }];
    }
 
    getOptions(): any {
-      return {
-         period: '15m',
-      };
+      return { period: '15m' };
    }
 }

@@ -1,17 +1,14 @@
 import * as Resample from './resample';
 
 export class TechnicalAnalysisValidator {
-   isValidCandleStickLookback(
-      lookbackNewestFirst: {
-         time: number; //
-         open?: number;
-         high?: number;
-         low?: number;
-         close?: number;
-         volume?: number;
-      }[],
-      period: string,
-   ): boolean {
+   isValidCandleStickLookback(lookbackNewestFirst: {
+      time: number; //
+      open?: number;
+      high?: number;
+      low?: number;
+      close?: number;
+      volume?: number;
+   }[], period: string): boolean {
       if (lookbackNewestFirst.length === 0) {
          return false;
       }

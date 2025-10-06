@@ -1,14 +1,20 @@
 {
    "files": {
       "maxSize": 10485760,
-      "ignore": ["src/*.js", "docs/*.js", "data/*.js"]
+      "includes": [
+         "**/src/**",
+         "**/tests/**",
+         "!**/src/**/*.js",
+         "!**/dist/**/*.js",
+         "!**/docs",
+         "!**/data/**/*.js"
+      ]
    },
    "formatter": {
       "enabled": true,
       "lineWidth": 256,
       "indentStyle": "space",
-      "indentWidth": 3,
-      "ignore": ["dist/*.js"]
+      "indentWidth": 3
    },
    "javascript": {
       "parser": {
@@ -25,32 +31,61 @@
    },
    "linter": {
       "enabled": true,
-      "ignore": ["dist/*.js"],
       "rules": {
          "style": {
             "useConst": "off",
             "noUselessElse": "off",
             "noInferrableTypes": "off",
             "noParameterAssign": "off",
-            "noUnusedTemplateLiteral": "warn",
+            "noUnusedTemplateLiteral": "off",
             "useImportType": "off",
-            "useTemplate": "warn"
+            "useTemplate": "off",
+            "useLiteralEnumMembers": "error",
+            "useNodejsImportProtocol": "error",
+            "useAsConstAssertion": "error",
+            "useEnumInitializers": "error",
+            "useSelfClosingElements": "error",
+            "useSingleVarDeclarator": "error",
+            "useNumberNamespace": "error",
+            "useExponentiationOperator": "error",
+            "noNonNullAssertion": "off",
+            "useDefaultParameterLast": "error",
+            "useExportType": "error",
+            "useShorthandFunctionType": "error"
          },
          "correctness": {
+            "useParseIntRadix": "off",
+            "noUnusedVariables": "off",
+            "noUnusedImports": "off",
+            "noUnusedPrivateClassMembers": "off",
+            "noUnusedFunctionParameters": "off",
             "noUnreachable": "warn"
          },
+         "complexity": {
+            "noUselessSwitchCase": "off",
+            "useOptionalChain": "off",
+            "noUselessUndefinedInitialization": "off",
+            "noBannedTypes": "off",
+            "useDateNow": "off",
+            "useRegexLiterals": "off",
+            "noForEach": "off",
+            "noStaticOnlyClass": "off",
+            "noUselessCatch": "off",
+            "useLiteralKeys": "off",
+            "noCommaOperator": "error",
+            "useNumericLiterals": "error",
+            "noArguments": "error"
+         },
          "suspicious": {
+            "useIterableCallbackReturn": "off",
+            "noTemplateCurlyInString": "off",
             "noFocusedTests": "off",
             "noDoubleEquals": "warn",
             "noRedeclare": "off",
+            "noArrayIndexKey": "off",
+            "noImplicitAnyLet": "off",
+            "noUnknownAtRules": "off",
             "noExplicitAny": "off"
-         },
-         "complexity": {
-            "useRegexLiterals": "off",
-            "noForEach": "off",
-            "noUselessSwitchCase": "off",
-            "noStaticOnlyClass": "off",
-            "useLiteralKeys": "off"
          }
       }
    }

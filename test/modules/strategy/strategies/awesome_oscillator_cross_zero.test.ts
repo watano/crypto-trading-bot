@@ -17,38 +17,11 @@ describe('#strategy AwesomeOscillatorCrossZero', () => {
    it('AwesomeOscillatorCrossZero long', async () => {
       const aoCross = new AwesomeOscillatorCrossZero();
 
-      expect(
-         (
-            await aoCross.period(
-               new IndicatorPeriod(createStrategyContext(404), {
-                  sma200: [500, 400, 388],
-                  ao: [-1, 0.1, 0.3],
-               }),
-            )
-         ).getSignal(),
-      ).toBe('long');
+      expect((await aoCross.period(new IndicatorPeriod(createStrategyContext(404), { sma200: [500, 400, 388], ao: [-1, 0.1, 0.3] }))).getSignal()).toBe('long');
 
-      expect(
-         (
-            await aoCross.period(
-               new IndicatorPeriod(createStrategyContext(404), {
-                  sma200: [500, 400, 388],
-                  ao: [-2, -1, -0.3],
-               }),
-            )
-         ).getSignal(),
-      ).toBeUndefined();
+      expect((await aoCross.period(new IndicatorPeriod(createStrategyContext(404), { sma200: [500, 400, 388], ao: [-2, -1, -0.3] }))).getSignal()).toBeUndefined();
 
-      expect(
-         (
-            await aoCross.period(
-               new IndicatorPeriod(createStrategyContext(404), {
-                  sma200: [500, 400, 388],
-                  ao: [2, -1, -0.3],
-               }),
-            )
-         ).getSignal(),
-      ).toBeUndefined();
+      expect((await aoCross.period(new IndicatorPeriod(createStrategyContext(404), { sma200: [500, 400, 388], ao: [2, -1, -0.3] }))).getSignal()).toBeUndefined();
    });
 
    it('AwesomeOscillatorCrossZero long (close)', async () => {
@@ -57,56 +30,20 @@ describe('#strategy AwesomeOscillatorCrossZero', () => {
       let context = new StrategyContext({}, new Ticker('goo', 'goo', 0, 404, 0));
       context.lastSignal = 'long';
 
-      expect(
-         (
-            await aoCross.period(
-               new IndicatorPeriod(context, {
-                  sma200: [500, 400, 388],
-                  ao: [0.1, -1, 0.3],
-               }),
-            )
-         ).getSignal(),
-      ).toBe('close');
+      expect((await aoCross.period(new IndicatorPeriod(context, { sma200: [500, 400, 388], ao: [0.1, -1, 0.3] }))).getSignal()).toBe('close');
 
       context = new StrategyContext({}, new Ticker('goo', 'goo', 0, 404, 0));
       context.lastSignal = 'short';
 
-      expect(
-         (
-            await aoCross.period(
-               new IndicatorPeriod(context, {
-                  sma200: [500, 400, 388],
-                  ao: [0.1, -1, 0.3],
-               }),
-            )
-         ).getSignal(),
-      ).toBeUndefined();
+      expect((await aoCross.period(new IndicatorPeriod(context, { sma200: [500, 400, 388], ao: [0.1, -1, 0.3] }))).getSignal()).toBeUndefined();
    });
 
    it('AwesomeOscillatorCrossZero short', async () => {
       const aoCross = new AwesomeOscillatorCrossZero();
 
-      expect(
-         (
-            await aoCross.period(
-               new IndicatorPeriod(createStrategyContext(394), {
-                  sma200: [500, 400, 399],
-                  ao: [1, -0.1, -0.2],
-               }),
-            )
-         ).getSignal(),
-      ).toBe('short');
+      expect((await aoCross.period(new IndicatorPeriod(createStrategyContext(394), { sma200: [500, 400, 399], ao: [1, -0.1, -0.2] }))).getSignal()).toBe('short');
 
-      expect(
-         (
-            await aoCross.period(
-               new IndicatorPeriod(createStrategyContext(403), {
-                  sma200: [500, 400, 399],
-                  ao: [1, -0.1, -0.2],
-               }),
-            )
-         ).getSignal(),
-      ).toBeUndefined();
+      expect((await aoCross.period(new IndicatorPeriod(createStrategyContext(403), { sma200: [500, 400, 399], ao: [1, -0.1, -0.2] }))).getSignal()).toBeUndefined();
    });
 
    it('AwesomeOscillatorCrossZero short (close)', async () => {
@@ -115,16 +52,7 @@ describe('#strategy AwesomeOscillatorCrossZero', () => {
       const context = new StrategyContext({}, new Ticker('goo', 'goo', 0, 394, 0));
       context.lastSignal = 'short';
 
-      expect(
-         (
-            await aoCross.period(
-               new IndicatorPeriod(context, {
-                  sma200: [500, 400, 399],
-                  ao: [-0.1, 1, -0.2],
-               }),
-            )
-         ).getSignal(),
-      ).toBe('close');
+      expect((await aoCross.period(new IndicatorPeriod(context, { sma200: [500, 400, 399], ao: [-0.1, 1, -0.2] }))).getSignal()).toBe('close');
    });
 
    const createStrategyContext = (price: number) => {

@@ -139,11 +139,7 @@ export class CcxtExchangeOrder {
          return undefined;
       }
 
-      let args = {
-         id: id,
-         symbol: order.symbol,
-         order: order,
-      };
+      let args = { id: id, symbol: order.symbol, order: order };
 
       if (this.callbacks && 'cancelOrder' in this.callbacks) {
          const custom = this.callbacks.cancelOrder(this.ccxtClient, args);
@@ -176,7 +172,7 @@ export class CcxtExchangeOrder {
 
       for (const order of await this.getOrdersForSymbol(symbol)) {
          const order1 = await this.cancelOrder(order.id.toString());
-         if (order1) orders.push(order1);
+         if (order1) { orders.push(order1); }
       }
 
       return orders;

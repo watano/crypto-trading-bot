@@ -55,14 +55,7 @@ describe('#resample of candles', () => {
       const start = 1393493400;
 
       for (let i = 1; i < 23; i++) {
-         candles.push({
-            time: start - 15 * i * 60,
-            volume: i * 100,
-            open: i * 2,
-            close: i * 2.1,
-            high: i * 1.1,
-            low: i * 0.9,
-         });
+         candles.push({ time: start - 15 * i * 60, volume: i * 100, open: i * 2, close: i * 2.1, high: i * 1.1, low: i * 0.9 });
       }
 
       const resampleCandles = resampleMinutes(candles, 60);

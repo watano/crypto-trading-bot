@@ -1,8 +1,10 @@
+import { StrategyContext } from "~/src/dict/strategy_context";
+
 export class IndicatorPeriod {
-   private strategyContext: any;
+   private strategyContext: StrategyContext;
    private indicators: { [key: string]: any[] };
 
-   constructor(strategyContext: any, indicators: { [key: string]: any[] }) {
+   constructor(strategyContext: StrategyContext, indicators: { [key: string]: any[] }) {
       this.strategyContext = strategyContext;
       this.indicators = indicators;
    }
@@ -20,7 +22,7 @@ export class IndicatorPeriod {
    }
 
    getProfit(): number {
-      return this.strategyContext.getProfit();
+      return this.strategyContext.getProfit() ?? 0;
    }
 
    isShort(): boolean {
@@ -37,7 +39,7 @@ export class IndicatorPeriod {
     * Usable in a strategy by calling indicatorPeriod.getStrategyContext() --> then you can use the result to grab the
     * current entry, last signal, etc..
     */
-   getStrategyContext(): any {
+   getStrategyContext(): StrategyContext {
       return this.strategyContext;
    }
 

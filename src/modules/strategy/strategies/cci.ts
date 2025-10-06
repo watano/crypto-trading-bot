@@ -1,3 +1,5 @@
+import { IndicatorBuilder } from '../dict/indicator_builder';
+import { IndicatorPeriod } from '../dict/indicator_period';
 import { SignalResult } from '../dict/signal_result';
 
 export class CCI {
@@ -5,24 +7,19 @@ export class CCI {
       return 'cci';
    }
 
-   buildIndicator(indicatorBuilder: any, options: any): void {
+   buildIndicator(indicatorBuilder: IndicatorBuilder, options: any): void {
       if (!options.period) {
          throw new Error('Invalid period');
       }
 
       indicatorBuilder.add('cci', 'cci', options.period);
-
-      indicatorBuilder.add('sma200', 'sma', options.period, {
-         length: 200,
-      });
-
-      indicatorBuilder.add('ema200', 'ema', options.period, {
-         length: 200,
-      });
+      indicatorBuilder.add('sma200', 'sma', options.period, { length: 200 });
+      indicatorBuilder.add('ema200', 'ema', options.period, { length: 200 });
    }
 
-   period(indicatorPeriod: any): Promise<any> {
-      return this.cci(indicatorPeriod.getPrice(), indicatorPeriod.getIndicator('sma200'), indicatorPeriod.getIndicator('ema200'), indicatorPeriod.getIndicator('cci'), indicatorPeriod.getLastSignal());
+   period(indicatorPeriod: IndicatorPeriod): Promise<any> {
+      return this.cci(indicatorPeriod.getPrice(),
+         indicatorPeriod.getIndicator('sma200'), indicatorPeriod.getIndicator('ema200'), indicatorPeriod.getIndicator('cci'), indicatorPeriod.getLastSignal() ?? '');
    }
 
    async cci(price: number, sma200Full: number[], ema200Full: number[], cciFull: number[], lastSignal: string): Promise<any> {
@@ -35,11 +32,7 @@ export class CCI {
       const ema200 = ema200Full.slice(0, -1);
       const cci = cciFull.slice(0, -1);
 
-      const debug: any = {
-         sma200: sma200[sma200.length - 1],
-         ema200: ema200[ema200.length - 1],
-         cci: cci[cci.length - 1],
-      };
+      const debug: any = { sma200: sma200[sma200.length - 1], ema200: ema200[ema200.length - 1], cci: cci[cci.length - 1] };
 
       const before = cci[cci.length - 2];
       const last = cci[cci.length - 1];
@@ -97,19 +90,10 @@ export class CCI {
    }
 
    getBacktestColumns(): { label: string; value: string; type: string; range: [number, number] }[] {
-      return [
-         {
-            label: 'cci',
-            value: 'cci',
-            type: 'oscillator',
-            range: [100, -100],
-         },
-      ];
+      return [{ label: 'cci', value: 'cci', type: 'oscillator', range: [100, -100] }];
    }
 
    getOptions(): { period: string } {
-      return {
-         period: '15m',
-      };
+      return { period: '15m' };
    }
 }

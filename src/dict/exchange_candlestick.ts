@@ -11,13 +11,13 @@ export class ExchangeCandlestick {
 
    constructor(exchange: string, symbol: string, period: string, time: number, open: number, high: number, low: number, close: number, volume: number) {
       if (!['m', 'h', 'd', 'y'].includes(period.slice(-1))) {
-         throw new Error(`Invalid candlestick period: ${period} - `); //${JSON.stringify(Object.values(arguments))}`);
+         throw new Error(`Invalid candlestick period: ${period} - `); // ${JSON.stringify(Object.values(arguments))}`);
       }
 
       // simple time validation
       time = Number.parseInt(time.toString());
       if (time <= 631148400) {
-         throw new Error(`Invalid candlestick time given: ${time} - `); //${JSON.stringify(Object.values(arguments))}`);
+         throw new Error(`Invalid candlestick time given: ${time} - `); // ${JSON.stringify(Object.values(arguments))}`);
       }
 
       this.exchange = exchange;

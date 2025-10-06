@@ -71,15 +71,7 @@ export class CandlesFromTrades {
          delete this.candles[symbol][lastCandle.timestamp];
       }
 
-      this.candles[symbol][roundedTime] = {
-         timestamp: roundedTime,
-         open: trade.price,
-         high: trade.price,
-         low: trade.price,
-         close: trade.price,
-         volume: trade.amount,
-         closed: false,
-      };
+      this.candles[symbol][roundedTime] = { timestamp: roundedTime, open: trade.price, high: trade.price, low: trade.price, close: trade.price, volume: trade.amount, closed: false };
 
       const ourCandles: ExchangeCandlestick[] = [];
       for (const timestamp in this.candles[symbol]) {
@@ -89,12 +81,9 @@ export class CandlesFromTrades {
       }
 
       // Delete old candles
-      Object.keys(this.candles[symbol])
-         .sort((a: any, b: any) => b - a)
-         .slice(200)
-         .forEach((i: any) => {
-            delete this.candles[symbol][i];
-         });
+      Object.keys(this.candles[symbol]).sort((a: any, b: any) => b - a).slice(200).forEach((i: any) => {
+         delete this.candles[symbol][i];
+      });
 
       await this.candleImporter.insertThrottledCandles(ourCandles);
 
@@ -106,10 +95,8 @@ export class CandlesFromTrades {
       }
 
       // Wait for insert of previous database inserts
-      await Promise.all(
-         resamples.map(async (resamplePeriod) => {
-            await this.candlestickResample.resample(exchangeName, symbol, '1m', resamplePeriod, true);
-         }),
-      );
+      await Promise.all(resamples.map(async (resamplePeriod) => {
+         await this.candlestickResample.resample(exchangeName, symbol, '1m', resamplePeriod, true);
+      }));
    }
 }

@@ -7,18 +7,11 @@ export class PivotReversalStrategy {
 
    buildIndicator(indicatorBuilder: any, options: any): void {
       indicatorBuilder.add('candles_1m', 'candles', '1m');
-      indicatorBuilder.add('pivot_points', 'pivot_points_high_low', '15m', {
-         left: options.left || 4,
-         right: options.right || 2,
-      });
+      indicatorBuilder.add('pivot_points', 'pivot_points_high_low', '15m', { left: options.left || 4, right: options.right || 2 });
 
-      indicatorBuilder.add('sma200', 'sma', '1h', {
-         length: 200,
-      });
+      indicatorBuilder.add('sma200', 'sma', '1h', { length: 200 });
 
-      indicatorBuilder.add('sma50', 'sma', '1h', {
-         length: 50,
-      });
+      indicatorBuilder.add('sma50', 'sma', '1h', { length: 50 });
    }
 
    async period(indicatorPeriod: any): Promise<SignalResult> {
@@ -30,10 +23,7 @@ export class PivotReversalStrategy {
 
       const candles1m = indicatorPeriod.getIndicator('candles_1m');
       if (candles1m) {
-         debug.candles = candles1m
-            .slice(-3)
-            .map((c: any) => c.close)
-            .join(', ');
+         debug.candles = candles1m.slice(-3).map((c: any) => c.close).join(', ');
       }
 
       // close; use watchdog!
@@ -92,44 +82,17 @@ export class PivotReversalStrategy {
 
    getBacktestColumns(): any[] {
       return [
-         {
-            label: 'SMA 50/200',
-            value: 'sma50',
-            type: 'cross',
-            cross: 'sma200',
-         },
-         {
-            label: 'sma200',
-            value: 'sma200',
-         },
-         {
-            label: 'sma50',
-            value: 'sma50',
-         },
-         {
-            label: 'Pivot Points',
-            value: 'pivot_points',
-         },
-         {
-            label: 'candles_1m',
-            value: 'candles_1m.close',
-         },
-         {
-            label: 'candles',
-            value: 'candles',
-         },
-         {
-            label: 'debug',
-            value: 'debug',
-         },
+         { label: 'SMA 50/200', value: 'sma50', type: 'cross', cross: 'sma200' },
+         { label: 'sma200', value: 'sma200' },
+         { label: 'sma50', value: 'sma50' },
+         { label: 'Pivot Points', value: 'pivot_points' },
+         { label: 'candles_1m', value: 'candles_1m.close' },
+         { label: 'candles', value: 'candles' },
+         { label: 'debug', value: 'debug' },
       ];
    }
 
    getOptions(): any {
-      return {
-         period: '15m',
-         left: 4,
-         right: 2,
-      };
+      return { period: '15m', left: 4, right: 2 };
    }
 }

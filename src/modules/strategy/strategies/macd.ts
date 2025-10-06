@@ -10,15 +10,11 @@ export class Macd {
          throw new Error('Invalid period');
       }
 
-      indicatorBuilder.add('macd', 'macd_ext', options.period, options);
+      indicatorBuilder.add('macd', 'macd', options.period, options);
 
-      indicatorBuilder.add('hma', 'hma', options.period, {
-         length: 9,
-      });
+      indicatorBuilder.add('hma', 'hma', options.period, { length: 9 });
 
-      indicatorBuilder.add('sma200', 'sma', options.period, {
-         length: 200,
-      });
+      indicatorBuilder.add('sma200', 'sma', options.period, { length: 200 });
    }
 
    period(indicatorPeriod: any): SignalResult | undefined {
@@ -39,12 +35,7 @@ export class Macd {
 
       const lastSignal = indicatorPeriod.getLastSignal();
 
-      const debug = {
-         sma200: sma200[0],
-         histogram: macd[0].histogram,
-         last_signal: lastSignal,
-         long: long,
-      };
+      const debug = { sma200: sma200[0], histogram: macd[0].histogram, last_signal: lastSignal, long: long };
 
       const current = macd[0].histogram;
       const before = macd[1].histogram;
@@ -70,33 +61,20 @@ export class Macd {
    }
 
    getBacktestColumns(): any[] {
-      return [
-         {
-            label: 'trend',
-            value: (row: any) => {
-               if (typeof row.long !== 'boolean') {
-                  return undefined;
-               }
+      return [{
+         label: 'trend',
+         value: (row: any) => {
+            if (typeof row.long !== 'boolean') {
+               return undefined;
+            }
 
-               return row.long === true ? 'success' : 'danger';
-            },
-            type: 'icon',
+            return row.long === true ? 'success' : 'danger';
          },
-         {
-            label: 'histogram',
-            value: 'histogram',
-            type: 'histogram',
-         },
-      ];
+         type: 'icon',
+      }, { label: 'histogram', value: 'histogram', type: 'histogram' }];
    }
 
    getOptions(): any {
-      return {
-         period: '15m',
-         default_ma_type: 'EMA',
-         fast_period: 12,
-         slow_period: 26,
-         signal_period: 9,
-      };
+      return { period: '15m', default_ma_type: 'EMA', fast_period: 12, slow_period: 26, signal_period: 9 };
    }
 }

@@ -6,32 +6,24 @@ import { Ticker } from '~/src/dict/ticker';
 import { StrategyManager } from '~/src/modules/strategy/strategy_manager';
 import { TechnicalAnalysisValidator } from '~/src/utils/technical_analysis_validator';
 
-//FIXME
-describe.skip('#strategy manager', () => {
+// FIXME
+describe('#strategy manager', () => {
    it('strategy cci', async () => {
       const strategyManager = new StrategyManager(createTechnicalAnalysisValidator(), createCandlestickRepository());
-
-      const result: any = await strategyManager.executeStrategy('cci', createStrategyContext(), 'foobar', 'BTCUSD', {
-         period: '15m',
-      });
+      const result: any = await strategyManager.executeStrategy('cci', createStrategyContext(), 'foobar', 'BTCUSD', { period: '15m' });
       assert.equal(undefined, result.signal);
    });
 
-   it('strategy macd', async () => {
+   it.skip('strategy macd', async () => {
       const strategyManager = new StrategyManager(createTechnicalAnalysisValidator(), createCandlestickRepository());
-
-      const result: any = await strategyManager.executeStrategy('macd', createStrategyContext(), 'foobar', 'BTCUSD', {
-         period: '15m',
-      });
+      const result: any = await strategyManager.executeStrategy('macd', createStrategyContext(), 'foobar', 'BTCUSD', { period: '15m' });
       assert.equal(undefined, result.signal);
    });
 
    let createCandlestickRepository = () => {
       return {
          async fetchCombinedCandles(exchange: any) {
-            return {
-               [exchange]: createCandleFixtures(),
-            };
+            return { [exchange]: createCandleFixtures() };
          },
       };
    };

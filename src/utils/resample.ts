@@ -7,10 +7,7 @@ import { Candlestick } from '../dict/candlestick';
  * @param minutes
  * @returns {Array}
  */
-export const resampleMinutes = (
-   lookbackNewestFirst: Candlestick[],
-   minutes: number,
-): {
+export const resampleMinutes = (lookbackNewestFirst: Candlestick[], minutes: number): {
    time: number; //
    open: number;
    high: number;
@@ -36,10 +33,9 @@ export const resampleMinutes = (
    lookbackNewestFirst.forEach((candle: Candlestick) => {
       const mod = candle.time % secs;
 
-      const resampleCandleClose =
-         mod === 0
-            ? candle.time // we directly catch the window: eg full hour matched
-            : candle.time - mod + secs; // we calculate the next full window in future where es candle is closing
+      const resampleCandleClose = mod === 0
+         ? candle.time // we directly catch the window: eg full hour matched
+         : candle.time - mod + secs; // we calculate the next full window in future where es candle is closing
 
       // store the candle inside the main candle close
       if (!resampleCandleGroup[resampleCandleClose]) {

@@ -1,6 +1,6 @@
 import { describe, expect, it } from 'bun:test';
-import assert from 'node:assert';
 import moment from 'moment';
+import assert from 'node:assert';
 import { ExchangeOrder } from '~/src/dict/exchange_order';
 import { Order } from '~/src/dict/order';
 import { PairState } from '~/src/dict/pair_state';
@@ -26,12 +26,9 @@ describe('#order executor', () => {
          ),
       ];
 
-      const configs: any = {
-         'order.retry': 3,
-         'order.retry_ms': 8,
-      };
+      const configs: any = { 'order.retry': 3, 'order.retry_ms': 8 };
 
-      const pairState = new PairState('exchange', 'FOOUSD', 'short', {}, true, () => {});
+      const pairState = new PairState('exchange', 'FOOUSD', 'short', {}, true, () => { });
 
       let i = 0;
       const executor = new OrderExecutor(
@@ -50,15 +47,15 @@ describe('#order executor', () => {
                return configs[key];
             },
          } as unknown as SystemUtil,
-         { info: () => {}, error: () => {} },
+         { info: () => { }, error: () => { } },
          { all: () => [pairState] },
       );
 
       const result = await executor.executeOrder('foobar', Order.createLimitPostOnlyOrderAutoSide('BTCUSD', 1337, -10));
 
       assert.equal(i, 1);
-      //FIXME
-      //assert.equal(result?.id, '1815-1337-1');
+      // FIXME
+      // assert.equal(result?.id, '1815-1337-1');
    });
 
    it('test order create execution with retry', async () => {
@@ -69,10 +66,7 @@ describe('#order executor', () => {
          new ExchangeOrder('1815-1337-4', '', '', 0, 0, false, undefined, 'buy', ExchangeOrder.TYPE_LIMIT),
       ];
 
-      const configs: any = {
-         'order.retry': 3,
-         'order.retry_ms': 8,
-      };
+      const configs: any = { 'order.retry': 3, 'order.retry_ms': 8 };
 
       let i = 0;
       const executor = new OrderExecutor(
@@ -91,14 +85,14 @@ describe('#order executor', () => {
                return configs[key];
             },
          } as unknown as SystemUtil,
-         { info: () => {}, error: () => {} },
+         { info: () => { }, error: () => { } },
       );
 
       const result = await executor.executeOrder('foobar', Order.createLimitPostOnlyOrderAutoSide('BTCUSD', 1337, -10, {}));
 
-      //FIXME
-      //assert.equal(i, 4);
-      //assert.equal(result?.id, '1815-1337-4');
+      // FIXME
+      // assert.equal(i, 4);
+      // assert.equal(result?.id, '1815-1337-4');
    });
 
    it('test order create execution with out of retry limit', async () => {
@@ -110,10 +104,7 @@ describe('#order executor', () => {
          new ExchangeOrder('1815-1337-4', '', '', 0, 0, true, undefined, 'buy', ExchangeOrder.TYPE_LIMIT),
       ];
 
-      const configs: any = {
-         'order.retry': 3,
-         'order.retry_ms': 8,
-      };
+      const configs: any = { 'order.retry': 3, 'order.retry_ms': 8 };
 
       let i = 0;
       const executor = new OrderExecutor(
@@ -132,20 +123,20 @@ describe('#order executor', () => {
                return configs[key];
             },
          } as unknown as SystemUtil,
-         { info: () => {}, error: () => {} },
+         { info: () => { }, error: () => { } },
       );
 
       const result = await executor.executeOrder('foobar', Order.createLimitPostOnlyOrderAutoSide('BTCUSD', 1337, -10));
 
-      //FIXME
-      //assert.equal(i, 4);
-      //assert.equal(result, undefined);
+      // FIXME
+      // assert.equal(i, 4);
+      // assert.equal(result, undefined);
    });
 
    it('test that adjust price handler must clean up unknown orders', async () => {
       const exchangeOrder = new ExchangeOrder('1815-1337', '', '', 0, 0, false, undefined, 'buy', ExchangeOrder.TYPE_LIMIT);
 
-      const pairState = new PairState('exchange', 'FOOUSD', 'short', {}, true, () => {});
+      const pairState = new PairState('exchange', 'FOOUSD', 'short', {}, true, () => { });
       pairState.setExchangeOrder(exchangeOrder);
 
       const executor = new OrderExecutor(
@@ -160,7 +151,7 @@ describe('#order executor', () => {
          } as unknown as ExchangeManager,
          {} as unknown as Tickers,
          undefined,
-         { debug: () => {} },
+         { debug: () => { } },
          { all: () => [pairState] },
       );
 
@@ -173,7 +164,7 @@ describe('#order executor', () => {
          {} as unknown as ExchangeManager, //
          {} as unknown as Tickers,
          undefined,
-         { debug: () => {} },
+         { debug: () => { } },
          { all: () => [] },
       );
 
@@ -194,7 +185,7 @@ describe('#order executor', () => {
       let exchangeName: string | undefined;
       let orderUpdate: any;
 
-      const pairState = new PairState('exchange', 'FOOUSD', 'short', {}, true, () => {});
+      const pairState = new PairState('exchange', 'FOOUSD', 'short', {}, true, () => { });
       pairState.setExchangeOrder(exchangeOrder);
 
       const executor = new OrderExecutor(
@@ -223,7 +214,7 @@ describe('#order executor', () => {
             },
          } as unknown as Tickers,
          undefined,
-         { info: () => {}, error: () => {} },
+         { info: () => { }, error: () => { } },
       );
 
       await executor.adjustOpenOrdersPrice(pairState);
@@ -232,42 +223,31 @@ describe('#order executor', () => {
       assert.equal(Object.keys(executor.runningOrders).length, 0);
    });
 
-   //FIXME
+   // FIXME
    it.skip('test that price adjust order is recreated on placing error [long]', async () => {
       const exchangeOrder = new ExchangeOrder('1815-1337', '', 'open', 337, 1331, false, undefined, 'buy', ExchangeOrder.TYPE_LIMIT);
 
-      const logMessages: any = {
-         info: [],
-         error: [],
-      };
+      const logMessages: any = { info: [], error: [] };
 
-      const pairState = new PairState('exchange', 'FOOUSD', 'short', {}, true, () => {});
+      const pairState = new PairState('exchange', 'FOOUSD', 'short', {}, true, () => { });
       pairState.setExchangeOrder(exchangeOrder);
 
-      const executor = new OrderExecutor(
-         {
-            get: () => {
-               return {
-                  findOrderById: async () => exchangeOrder,
-                  updateOrder: () => new ExchangeOrder('1815-1337', '', 'canceled', 1339, 0, true, undefined, 'buy', ExchangeOrder.TYPE_LIMIT),
-               };
-            },
-         } as unknown as ExchangeManager,
-         {
-            getIfUpToDate: () => new Ticker('exchange', 'FOOUSD', 0, 1337, 1338), //
-         } as unknown as Tickers,
-         {
-            getConfig: (key: string, defaultValue: any) => defaultValue, //
-         } as unknown as SystemUtil,
-         {
-            info: (message: string) => {
-               logMessages.info.push(message);
-            },
-            error: (message: string) => {
-               logMessages.error.push(message);
-            },
+      const executor = new OrderExecutor({
+         get: () => {
+            return { findOrderById: async () => exchangeOrder, updateOrder: () => new ExchangeOrder('1815-1337', '', 'canceled', 1339, 0, true, undefined, 'buy', ExchangeOrder.TYPE_LIMIT) };
          },
-      );
+      } as unknown as ExchangeManager, {
+         getIfUpToDate: () => new Ticker('exchange', 'FOOUSD', 0, 1337, 1338), //
+      } as unknown as Tickers, {
+         getConfig: (key: string, defaultValue: any) => defaultValue, //
+      } as unknown as SystemUtil, {
+         info: (message: string) => {
+            logMessages.info.push(message);
+         },
+         error: (message: string) => {
+            logMessages.error.push(message);
+         },
+      });
 
       let retryOrder: any;
       executor.executeOrder = async (exchange: string, order: any) => {
@@ -284,42 +264,31 @@ describe('#order executor', () => {
       assert.strictEqual(logMessages.error.filter((msg: string) => msg.includes('replacing canceled order')).length, 1);
    });
 
-   //FIXME
+   // FIXME
    it.skip('test that price adjust order is recreated on placing error [short]', async () => {
       const exchangeOrder = new ExchangeOrder('1815-1337', '', 'open', 337, 1331, false, undefined, 'sell', ExchangeOrder.TYPE_LIMIT);
 
-      const logMessages: any = {
-         info: [],
-         error: [],
-      };
+      const logMessages: any = { info: [], error: [] };
 
-      const pairState = new PairState('exchange', 'FOOUSD', 'short', {}, true, () => {});
+      const pairState = new PairState('exchange', 'FOOUSD', 'short', {}, true, () => { });
       pairState.setExchangeOrder(exchangeOrder);
 
-      const executor = new OrderExecutor(
-         {
-            get: () => {
-               return {
-                  findOrderById: async () => exchangeOrder,
-                  updateOrder: () => new ExchangeOrder('1815-1337', '', 'canceled', 1339, 0, true, undefined, 'buy', ExchangeOrder.TYPE_LIMIT),
-               };
-            },
-         } as unknown as ExchangeManager,
-         {
-            getIfUpToDate: () => new Ticker('exchange', 'FOOUSD', 0, 1337, 1338), //
-         } as unknown as Tickers,
-         {
-            getConfig: (key: string, defaultValue: any) => defaultValue, //
-         } as unknown as SystemUtil,
-         {
-            info: (message: string) => {
-               logMessages.info.push(message);
-            },
-            error: (message: string) => {
-               logMessages.error.push(message);
-            },
+      const executor = new OrderExecutor({
+         get: () => {
+            return { findOrderById: async () => exchangeOrder, updateOrder: () => new ExchangeOrder('1815-1337', '', 'canceled', 1339, 0, true, undefined, 'buy', ExchangeOrder.TYPE_LIMIT) };
          },
-      );
+      } as unknown as ExchangeManager, {
+         getIfUpToDate: () => new Ticker('exchange', 'FOOUSD', 0, 1337, 1338), //
+      } as unknown as Tickers, {
+         getConfig: (key: string, defaultValue: any) => defaultValue, //
+      } as unknown as SystemUtil, {
+         info: (message: string) => {
+            logMessages.info.push(message);
+         },
+         error: (message: string) => {
+            logMessages.error.push(message);
+         },
+      });
 
       let retryOrder: any;
       executor.executeOrder = async (exchangeName: string, order: Order) => {
@@ -342,7 +311,7 @@ describe('#order executor', () => {
       let exchangeName: string | undefined;
       let orderUpdate: any;
 
-      const pairState = new PairState('exchange', 'FOOUSD', 'short', {}, true, () => {});
+      const pairState = new PairState('exchange', 'FOOUSD', 'short', {}, true, () => { });
       pairState.setExchangeOrder(exchangeOrder);
 
       const executor = new OrderExecutor(
@@ -369,7 +338,7 @@ describe('#order executor', () => {
             getIfUpToDate: () => new Ticker('exchange', 'FOOUSD', 0, 1337, 1338), //
          } as unknown as Tickers,
          undefined,
-         { info: () => {}, error: () => {} },
+         { info: () => { }, error: () => { } },
       );
 
       await executor.adjustOpenOrdersPrice(pairState);
@@ -397,7 +366,7 @@ describe('#order executor', () => {
             },
          } as unknown as Tickers,
          undefined,
-         { info: () => {}, error: () => {} },
+         { info: () => { }, error: () => { } },
       );
 
       await executor.cancelAll('FOO_EXCHANGE', 'test');
@@ -428,7 +397,7 @@ describe('#order executor', () => {
             },
          } as unknown as Tickers,
          undefined,
-         { info: () => {}, error: () => {} },
+         { info: () => { }, error: () => { } },
       );
 
       await executor.cancelOrder('FOO_EXCHANGE', '1337-ABCD');
@@ -447,7 +416,7 @@ describe('#order executor', () => {
             },
          } as unknown as Tickers,
          undefined,
-         { info: () => {}, error: () => {} },
+         { info: () => { }, error: () => { } },
       );
 
       executor.tickerPriceInterval = 2;

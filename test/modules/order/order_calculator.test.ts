@@ -20,71 +20,22 @@ describe('#order size calculation', () => {
 
    const instances: any = {
       symbols: [
-         {
-            exchange: 'foobar',
-            symbol: 'foo',
-            trade: {
-               currency_capital: 12,
-            },
-         },
-         {
-            exchange: 'foobar2',
-            symbol: 'foo2',
-         },
-         {
-            exchange: 'foobar',
-            symbol: 'foo2',
-            trade: {
-               currency_capital: 1337,
-            },
-         },
-         {
-            exchange: 'foobar',
-            symbol: 'foo_capital',
-            trade: {
-               capital: 0.0001,
-            },
-         },
-         {
-            exchange: 'foobar',
-            symbol: 'foo_capital2',
-            trade: {
-               capital: 12,
-            },
-         },
-         {
-            exchange: 'foobar',
-            symbol: 'foo_capital3',
-            trade: {
-               capital: 1337,
-            },
-         },
-         {
-            exchange: 'foobar',
-            symbol: 'foo_balance',
-            trade: {
-               balance_percent: 50,
-            },
-         },
+         { exchange: 'foobar', symbol: 'foo', trade: { currency_capital: 12 } },
+         { exchange: 'foobar2', symbol: 'foo2' },
+         { exchange: 'foobar', symbol: 'foo2', trade: { currency_capital: 1337 } },
+         { exchange: 'foobar', symbol: 'foo_capital', trade: { capital: 0.0001 } },
+         { exchange: 'foobar', symbol: 'foo_capital2', trade: { capital: 12 } },
+         { exchange: 'foobar', symbol: 'foo_capital3', trade: { capital: 1337 } },
+         { exchange: 'foobar', symbol: 'foo_balance', trade: { balance_percent: 50 } },
       ],
    };
 
    it('test instance order size for capital', async () => {
-      const calculator = new OrderCalculator(
-         testTickers,
-         {
-            error: () => {},
+      const calculator = new OrderCalculator(testTickers, { error: () => { } }, {
+         get: () => {
+            return { calculateAmount: (n: number) => n, isInverseSymbol: () => false };
          },
-         {
-            get: () => {
-               return {
-                  calculateAmount: (n: number) => n,
-                  isInverseSymbol: () => false,
-               };
-            },
-         } as unknown as ExchangeManager,
-         new PairConfig(instances),
-      );
+      } as unknown as ExchangeManager, new PairConfig(instances));
 
       expect(await calculator.calculateOrderSize('foobar', 'foo_capital2')).toBe(12);
       expect(await calculator.calculateOrderSize('UNKNOWN', 'foo')).toBeUndefined();
@@ -92,21 +43,11 @@ describe('#order size calculation', () => {
    });
 
    it('test instance order size currency capital', async () => {
-      const calculator = new OrderCalculator(
-         testTickers,
-         {
-            error: () => {},
+      const calculator = new OrderCalculator(testTickers, { error: () => { } }, {
+         get: () => {
+            return { calculateAmount: (n: number) => n, isInverseSymbol: () => false };
          },
-         {
-            get: () => {
-               return {
-                  calculateAmount: (n: number) => n,
-                  isInverseSymbol: () => false,
-               };
-            },
-         } as unknown as ExchangeManager,
-         new PairConfig(instances),
-      );
+      } as unknown as ExchangeManager, new PairConfig(instances));
 
       expect(await calculator.calculateOrderSize('foobar', 'foo')).toBe(0.004);
       expect(await calculator.calculateOrderSize('UNKNOWN', 'foo')).toBeUndefined();
@@ -114,22 +55,11 @@ describe('#order size calculation', () => {
    });
 
    it('test instance order size for inverse exchanges', async () => {
-      const calculator = new OrderCalculator(
-         testTickers,
-         {
-            error: () => {},
+      const calculator = new OrderCalculator(testTickers, { error: () => { } }, {
+         get: () => {
+            return { getTradableBalance: () => 100, calculateAmount: (n: number) => n, isInverseSymbol: () => true };
          },
-         {
-            get: () => {
-               return {
-                  getTradableBalance: () => 100,
-                  calculateAmount: (n: number) => n,
-                  isInverseSymbol: () => true,
-               };
-            },
-         } as unknown as ExchangeManager,
-         new PairConfig(instances),
-      );
+      } as unknown as ExchangeManager, new PairConfig(instances));
 
       expect(await calculator.calculateOrderSize('foobar', 'foo')).toBe(12);
       expect(await calculator.calculateOrderSize('UNKNOWN', 'foo')).toBeUndefined();

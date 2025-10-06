@@ -8,14 +8,7 @@ import { PairStateExecution } from './pair_state_execution';
 export class PairStateManager {
    private stats: { [key: string]: PairState };
 
-   constructor(
-      public logger: any,
-      public pairConfig: PairConfig,
-      public systemUtil: SystemUtil,
-      public pairStateExecution: PairStateExecution,
-      public orderExecutor: any,
-      public pairInterval: PairInterval = new PairInterval(),
-   ) {
+   constructor(public logger: any, public pairConfig: PairConfig, public systemUtil: SystemUtil, public pairStateExecution: PairStateExecution, public orderExecutor: any, public pairInterval: PairInterval = new PairInterval()) {
       this.stats = {};
    }
 
@@ -52,12 +45,7 @@ export class PairStateManager {
       }
 
       const stateKey = exchange + symbol;
-      this.logger.info(
-         `Pair state changed: ${JSON.stringify({
-            new: JSON.stringify(pairState),
-            old: JSON.stringify(this.stats[stateKey] || {}),
-         })}`,
-      );
+      this.logger.info(`Pair state changed: ${JSON.stringify({ new: JSON.stringify(pairState), old: JSON.stringify(this.stats[stateKey] || {}) })}`);
 
       this.stats[stateKey] = pairState;
 
@@ -79,7 +67,6 @@ export class PairStateManager {
    }
 
    /**
-    *
     * @param exchange
     * @param symbol
     * @returns {undefined|PairState}

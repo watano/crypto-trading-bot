@@ -7,15 +7,9 @@ export class DcaDipper {
 
    buildIndicator(indicatorBuilder: any, options: any): void {
       // basic price normalizer
-      indicatorBuilder.add('hma', 'hma', options.period, {
-         length: options.hma_period || 9,
-         source: options.hma_source || 'close',
-      });
+      indicatorBuilder.add('hma', 'hma', options.period, { length: options.hma_period || 9, source: options.hma_source || 'close' });
 
-      indicatorBuilder.add('bb', 'bb', options.period, {
-         length: options.bb_length || 20,
-         stddev: options.bb_stddev || 2,
-      });
+      indicatorBuilder.add('bb', 'bb', options.period, { length: options.bb_length || 20, stddev: options.bb_stddev || 2 });
    }
 
    async period(indicatorPeriod: any): Promise<SignalResult> {
@@ -66,33 +60,19 @@ export class DcaDipper {
    }
 
    getBacktestColumns(): any[] {
-      return [
-         {
-            label: 'buy',
-            value: (row: any) => {
-               if (row.buy) {
-                  return 'success';
-               }
-               return undefined;
-            },
-            type: 'icon',
+      return [{
+         label: 'buy',
+         value: (row: any) => {
+            if (row.buy) {
+               return 'success';
+            }
+            return undefined;
          },
-         {
-            label: 'price',
-            value: 'price',
-         },
-      ];
+         type: 'icon',
+      }, { label: 'price', value: 'price' }];
    }
 
    getOptions(): any {
-      return {
-         period: '15m',
-         amount_currency: '12',
-         percent_below_price: 0.1,
-         hma_period: 9,
-         hma_source: 'close',
-         bb_length: 20,
-         bb_stddev: 2,
-      };
+      return { period: '15m', amount_currency: '12', percent_below_price: 0.1, hma_period: 9, hma_source: 'close', bb_length: 20, bb_stddev: 2 };
    }
 }

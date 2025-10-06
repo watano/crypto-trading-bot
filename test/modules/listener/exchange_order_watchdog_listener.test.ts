@@ -9,9 +9,9 @@ import { ExchangeOrderWatchdogListener } from '~/src/modules/listener/exchange_o
 import { StopLossCalculator } from '~/src/modules/order/stop_loss_calculator';
 import { Tickers } from '~/src/storage/tickers';
 
-//FIXME
+// FIXME
 describe.skip('#watchdogs are working', () => {
-   const fakeLogger = { info: () => {}, error: () => {} };
+   const fakeLogger = { info: () => { }, error: () => { } };
    let calls: any[] = [];
    const fakeExchange = {
       getName: () => 'foobar',
@@ -38,9 +38,7 @@ describe.skip('#watchdogs are working', () => {
       );
 
       calls = [];
-      await listener.stoplossWatch(fakeExchange, new Position('FOOUSD', 'long', 1, undefined, undefined, 100), {
-         stop: 0.9,
-      });
+      await listener.stoplossWatch(fakeExchange, new Position('FOOUSD', 'long', 1, undefined, undefined, 100), { stop: 0.9 });
       assert.deepEqual(calls, ['foobar', 'FOOUSD', 'close']);
    });
 
@@ -61,9 +59,7 @@ describe.skip('#watchdogs are working', () => {
       );
 
       calls = [];
-      await listener.stoplossWatch(fakeExchange, new Position('FOOUSD', 'long', 1, undefined, undefined, 100), {
-         stop: 1.9,
-      });
+      await listener.stoplossWatch(fakeExchange, new Position('FOOUSD', 'long', 1, undefined, undefined, 100), { stop: 1.9 });
       assert.deepEqual(calls, []);
    });
 
@@ -84,9 +80,7 @@ describe.skip('#watchdogs are working', () => {
       );
 
       calls = [];
-      await listener.stoplossWatch(fakeExchange, new Position('FOOUSD', 'long', 1, undefined, undefined, 100), {
-         stop: 0.9,
-      });
+      await listener.stoplossWatch(fakeExchange, new Position('FOOUSD', 'long', 1, undefined, undefined, 100), { stop: 0.9 });
       assert.deepEqual(calls, []);
    });
 
@@ -107,9 +101,7 @@ describe.skip('#watchdogs are working', () => {
       );
 
       calls = [];
-      await listener.stoplossWatch(fakeExchange, new Position('FOOUSD', 'short', -1, undefined, undefined, 100), {
-         stop: 0.9,
-      });
+      await listener.stoplossWatch(fakeExchange, new Position('FOOUSD', 'short', -1, undefined, undefined, 100), { stop: 0.9 });
       assert.deepEqual(calls, ['foobar', 'FOOUSD', 'close']);
    });
 
@@ -130,9 +122,7 @@ describe.skip('#watchdogs are working', () => {
       );
 
       calls = [];
-      await listener.stoplossWatch(fakeExchange, new Position('FOOUSD', 'short', -1, undefined, undefined, 100), {
-         stop: 1.1,
-      });
+      await listener.stoplossWatch(fakeExchange, new Position('FOOUSD', 'short', -1, undefined, undefined, 100), { stop: 1.1 });
 
       assert.deepEqual(calls, []);
    });
@@ -154,18 +144,13 @@ describe.skip('#watchdogs are working', () => {
       );
 
       calls = [];
-      await listener.stoplossWatch(fakeExchange, new Position('FOOUSD', 'short', -1, undefined, undefined, 100), {
-         stop: 0.9,
-      });
+      await listener.stoplossWatch(fakeExchange, new Position('FOOUSD', 'short', -1, undefined, undefined, 100), { stop: 0.9 });
 
       assert.deepEqual(calls, []);
    });
 
    it('closed position should clear open orders', async () => {
-      const symbols = [
-         { exchange: 'foobar', symbol: 'FOOUSD' },
-         { exchange: 'foobar', symbol: 'BTCUSD', watchdogs: [{ name: 'stoploss' }] },
-      ];
+      const symbols = [{ exchange: 'foobar', symbol: 'FOOUSD' }, { exchange: 'foobar', symbol: 'BTCUSD', watchdogs: [{ name: 'stoploss' }] }];
       const listener = new ExchangeOrderWatchdogListener(
          {},
          { symbols: symbols },
@@ -182,11 +167,7 @@ describe.skip('#watchdogs are working', () => {
       );
 
       calls = [];
-      await listener.onPositionChanged({
-         getExchange: () => 'foobar',
-         getSymbol: () => 'BTCUSD',
-         isClosed: () => true,
-      });
+      await listener.onPositionChanged({ getExchange: () => 'foobar', getSymbol: () => 'BTCUSD', isClosed: () => true });
 
       assert.deepStrictEqual(calls[0], ['foobar', 'BTCUSD']);
    });
@@ -209,11 +190,7 @@ describe.skip('#watchdogs are working', () => {
       );
 
       calls = [];
-      await listener.onPositionChanged({
-         getExchange: () => 'foobar',
-         getSymbol: () => 'BTCUSD',
-         isClosed: () => true,
-      });
+      await listener.onPositionChanged({ getExchange: () => 'foobar', getSymbol: () => 'BTCUSD', isClosed: () => true });
 
       assert.deepStrictEqual(calls.length, 0);
    });
@@ -231,24 +208,10 @@ describe.skip('#watchdogs are working', () => {
       );
 
       calls = [];
-      await listener.trailingStoplossWatch(fakeExchange, new Position('FOOUSD', 'long', 1, undefined, undefined, 100), {
-         target_percent: 5.0,
-         stop_percent: 1.0,
-      });
+      await listener.trailingStoplossWatch(fakeExchange, new Position('FOOUSD', 'long', 1, undefined, undefined, 100), { target_percent: 5.0, stop_percent: 1.0 });
 
       calls[0].id = undefined;
-      assert.deepEqual(calls, [
-         {
-            amount: 1,
-            options: {
-               close: true,
-            },
-            price: -1.05,
-            side: 'short',
-            symbol: 'FOOUSD',
-            type: 'trailing_stop',
-         },
-      ]);
+      assert.deepEqual(calls, [{ amount: 1, options: { close: true }, price: -1.05, side: 'short', symbol: 'FOOUSD', type: 'trailing_stop' }]);
    });
 
    it('watchdog for trailing stoploss is working (long) not activated', async () => {
@@ -264,10 +227,7 @@ describe.skip('#watchdogs are working', () => {
       );
 
       calls = [];
-      await listener.trailingStoplossWatch(fakeExchange, new Position('FOOUSD', 'long', 1, undefined, undefined, 100), {
-         target_percent: 5.0,
-         stop_percent: 1.0,
-      });
+      await listener.trailingStoplossWatch(fakeExchange, new Position('FOOUSD', 'long', 1, undefined, undefined, 100), { target_percent: 5.0, stop_percent: 1.0 });
       assert.deepEqual(calls, []);
    });
 
@@ -284,24 +244,10 @@ describe.skip('#watchdogs are working', () => {
       );
 
       calls = [];
-      await listener.trailingStoplossWatch(fakeExchange, new Position('FOOUSD', 'short', -1, undefined, undefined, 100), {
-         target_percent: 5.0,
-         stop_percent: 1.0,
-      });
+      await listener.trailingStoplossWatch(fakeExchange, new Position('FOOUSD', 'short', -1, undefined, undefined, 100), { target_percent: 5.0, stop_percent: 1.0 });
 
       calls[0].id = undefined;
-      assert.deepEqual(calls, [
-         {
-            amount: 1,
-            options: {
-               close: true,
-            },
-            price: 0.95,
-            side: 'long',
-            symbol: 'FOOUSD',
-            type: 'trailing_stop',
-         },
-      ]);
+      assert.deepEqual(calls, [{ amount: 1, options: { close: true }, price: 0.95, side: 'long', symbol: 'FOOUSD', type: 'trailing_stop' }]);
    });
 
    it('watchdog for trailing stoploss is working (short) not activated', async () => {
@@ -317,10 +263,7 @@ describe.skip('#watchdogs are working', () => {
       );
 
       calls = [];
-      await listener.trailingStoplossWatch(fakeExchange, new Position('FOOUSD', 'short', -1, undefined, undefined, 100), {
-         target_percent: 5.0,
-         stop_percent: 1.0,
-      });
+      await listener.trailingStoplossWatch(fakeExchange, new Position('FOOUSD', 'short', -1, undefined, undefined, 100), { target_percent: 5.0, stop_percent: 1.0 });
 
       assert.deepEqual(calls, []);
    });
@@ -338,20 +281,10 @@ describe.skip('#watchdogs are working', () => {
       );
 
       calls = [];
-      const fakeExchange2 = Object.assign(fakeExchange, {
-         getOrdersForSymbol: async () => [{ id: 123, amount: 0.5, type: ExchangeOrder.TYPE_TRAILING_STOP }],
-      });
-      await listener.trailingStoplossWatch(fakeExchange2, new Position('FOOUSD', 'long', 1, undefined, undefined, 100), {
-         target_percent: 5.0,
-         stop_percent: 1.0,
-      });
+      const fakeExchange2 = Object.assign(fakeExchange, { getOrdersForSymbol: async () => [{ id: 123, amount: 0.5, type: ExchangeOrder.TYPE_TRAILING_STOP }] });
+      await listener.trailingStoplossWatch(fakeExchange2, new Position('FOOUSD', 'long', 1, undefined, undefined, 100), { target_percent: 5.0, stop_percent: 1.0 });
 
-      assert.deepEqual(calls, [
-         {
-            id: 123,
-            order: { id: 123, side: 'short', amount: -1, price: undefined, symbol: undefined, type: undefined, options: {} },
-         },
-      ]);
+      assert.deepEqual(calls, [{ id: 123, order: { id: 123, side: 'short', amount: -1, price: undefined, symbol: undefined, type: undefined, options: {} } }]);
    });
 
    it('watchdog for trailing stoploss with existing stop order, update not needed', async () => {
@@ -367,13 +300,8 @@ describe.skip('#watchdogs are working', () => {
       );
 
       calls = [];
-      const fakeExchange2 = Object.assign(fakeExchange, {
-         getOrdersForSymbol: async () => [{ id: 123, amount: 1, type: ExchangeOrder.TYPE_TRAILING_STOP }],
-      });
-      await listener.trailingStoplossWatch(fakeExchange2, new Position('FOOUSD', 'long', 1, undefined, undefined, 100), {
-         target_percent: 5.0,
-         stop_percent: 1.0,
-      });
+      const fakeExchange2 = Object.assign(fakeExchange, { getOrdersForSymbol: async () => [{ id: 123, amount: 1, type: ExchangeOrder.TYPE_TRAILING_STOP }] });
+      await listener.trailingStoplossWatch(fakeExchange2, new Position('FOOUSD', 'long', 1, undefined, undefined, 100), { target_percent: 5.0, stop_percent: 1.0 });
 
       assert.deepEqual(calls, []);
    });

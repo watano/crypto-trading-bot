@@ -10,13 +10,7 @@ import { SystemUtil } from '../system/system_util';
 export class OrderExecutor {
    public tickerPriceInterval = 200;
    public tickerPriceRetries = 40;
-   constructor(
-      public exchangeManager: ExchangeManager,
-      public tickers: Tickers,
-      public systemUtil?: SystemUtil,
-      public logger?: any,
-      public runningOrders: any = {},
-   ) {
+   constructor(public exchangeManager: ExchangeManager, public tickers: Tickers, public systemUtil?: SystemUtil, public logger?: any, public runningOrders: any = {}) {
       this.tickerPriceInterval = 200;
       this.tickerPriceRetries = 40;
    }
@@ -213,13 +207,10 @@ export class OrderExecutor {
       if (exchangeOrder.retry === true) {
          this.logger.info(`Order not placed force retry: ${JSON.stringify(exchangeOrder)}`);
 
-         setTimeout(
-            async () => {
-               const retryOrder = Order.createRetryOrder(order);
-               await this.triggerOrder(exchangeName, retryOrder, ++retry);
-            },
-            this.systemUtil?.getConfig('order.retry_ms', 1500),
-         );
+         setTimeout(async () => {
+            const retryOrder = Order.createRetryOrder(order);
+            await this.triggerOrder(exchangeName, retryOrder, ++retry);
+         }, this.systemUtil?.getConfig('order.retry_ms', 1500));
 
          return;
       }

@@ -17,10 +17,7 @@ export class RiskRewardRatioCalculator {
          return undefined;
       }
 
-      const result: any = {
-         stop: undefined,
-         target: undefined,
-      };
+      const result: any = { stop: undefined, target: undefined };
 
       entryPrice = Math.abs(entryPrice);
 
@@ -42,10 +39,7 @@ export class RiskRewardRatioCalculator {
 
       const stopOrders = orders.filter((order) => order.type === ExchangeOrder.TYPE_STOP);
       if (stopOrders.length === 0) {
-         newOrders.stop = {
-            amount: Math.abs(position.amount),
-            price: riskRewardRatio?.stop,
-         };
+         newOrders.stop = { amount: Math.abs(position.amount), price: riskRewardRatio?.stop };
 
          // inverse price for lose long position via sell
          if (position.side === 'long') {
@@ -62,19 +56,13 @@ export class RiskRewardRatioCalculator {
                amount *= -1;
             }
 
-            newOrders.stop = {
-               id: stopOrder.id,
-               amount: amount,
-            };
+            newOrders.stop = { id: stopOrder.id, amount: amount };
          }
       }
 
       const targetOrders = orders.filter((order) => order.type === ExchangeOrder.TYPE_LIMIT);
       if (targetOrders.length === 0) {
-         newOrders.target = {
-            amount: Math.abs(position.amount),
-            price: riskRewardRatio?.target,
-         };
+         newOrders.target = { amount: Math.abs(position.amount), price: riskRewardRatio?.target };
 
          // inverse price for lose long position via sell
          if (position.side === 'long') {
@@ -91,10 +79,7 @@ export class RiskRewardRatioCalculator {
                amount *= -1;
             }
 
-            newOrders.target = {
-               id: targetOrder.id,
-               amount: amount,
-            };
+            newOrders.target = { id: targetOrder.id, amount: amount };
          }
       }
 
@@ -107,33 +92,17 @@ export class RiskRewardRatioCalculator {
       const newOrders: Order[] = [];
       if (ratioOrders.target) {
          if (ratioOrders.target.id) {
-            newOrders.push(<Order>{
-               id: ratioOrders.target.id,
-               price: ratioOrders.target.price,
-               amount: ratioOrders.target.amount,
-            });
+            newOrders.push(<Order> { id: ratioOrders.target.id, price: ratioOrders.target.price, amount: ratioOrders.target.amount });
          } else {
-            newOrders.push(<Order>{
-               price: ratioOrders.target.price || undefined,
-               amount: ratioOrders.target.amount || undefined,
-               type: 'target',
-            });
+            newOrders.push(<Order> { price: ratioOrders.target.price || undefined, amount: ratioOrders.target.amount || undefined, type: 'target' });
          }
       }
 
       if (ratioOrders.stop) {
          if (ratioOrders.stop.id) {
-            newOrders.push(<Order>{
-               id: ratioOrders.stop.id,
-               price: ratioOrders.stop.price,
-               amount: ratioOrders.stop.amount,
-            });
+            newOrders.push(<Order> { id: ratioOrders.stop.id, price: ratioOrders.stop.price, amount: ratioOrders.stop.amount });
          } else {
-            newOrders.push(<Order>{
-               price: ratioOrders.stop.price,
-               amount: ratioOrders.stop.amount,
-               type: 'stop',
-            });
+            newOrders.push(<Order> { price: ratioOrders.stop.price, amount: ratioOrders.stop.amount, type: 'stop' });
          }
       }
 

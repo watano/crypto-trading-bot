@@ -7,4 +7,3 @@ auto = "force"
 # set default registry as a string
 registry = "https://registry.npmmirror.com"
 # registry = "http://mirrors.cloud.tencent.com/npm/"
-

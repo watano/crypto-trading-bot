@@ -7,30 +7,17 @@ export class DipCatcher {
 
    buildIndicator(indicatorBuilder: any, options: any): void {
       // line for short entry or long exit
-      indicatorBuilder.add('hma_high', 'hma', options.period, {
-         length: options.hma_high_period || 12,
-         source: options.hma_high_candle_source || 'high',
-      });
+      indicatorBuilder.add('hma_high', 'hma', options.period, { length: options.hma_high_period || 12, source: options.hma_high_candle_source || 'high' });
 
       // line for long entry or short exit
-      indicatorBuilder.add('hma_low', 'hma', options.period, {
-         length: options.hma_low_period || 12,
-         source: options.hma_low_candle_source || 'low',
-      });
+      indicatorBuilder.add('hma_low', 'hma', options.period, { length: options.hma_low_period || 12, source: options.hma_low_candle_source || 'low' });
 
       // basic price normalizer
-      indicatorBuilder.add('hma', 'hma', options.period, {
-         length: 9,
-      });
+      indicatorBuilder.add('hma', 'hma', options.period, { length: 9 });
 
       // our main direction
       const trendCloudMultiplier = options.trend_cloud_multiplier || 4;
-      indicatorBuilder.add('cloud', 'ichimoku_cloud', options.period, {
-         conversionPeriod: 9 * trendCloudMultiplier,
-         basePeriod: 26 * trendCloudMultiplier,
-         spanPeriod: 52 * trendCloudMultiplier,
-         displacement: 26 * trendCloudMultiplier,
-      });
+      indicatorBuilder.add('cloud', 'ichimoku_cloud', options.period, { conversionPeriod: 9 * trendCloudMultiplier, basePeriod: 26 * trendCloudMultiplier, spanPeriod: 52 * trendCloudMultiplier, displacement: 26 * trendCloudMultiplier });
 
       indicatorBuilder.add('bb', 'bb', '15m');
    }
@@ -80,52 +67,38 @@ export class DipCatcher {
    }
 
    getBacktestColumns(): any[] {
-      return [
-         {
-            label: 'bb_hma',
-            value: (row: any) => {
-               if (!row.bb) {
-                  return undefined;
-               }
-
-               if (row.hma < row.bb.lower) {
-                  return 'success';
-               }
-
-               if (row.hma > row.bb.upper) {
-                  return 'danger';
-               }
-
+      return [{
+         label: 'bb_hma',
+         value: (row: any) => {
+            if (!row.bb) {
                return undefined;
-            },
-            type: 'icon',
-         },
-         {
-            label: 'trend',
-            value: (row: any) => {
-               if (typeof row.trend !== 'boolean') {
-                  return undefined;
-               }
+            }
 
-               return row.trend === true ? 'success' : 'danger';
-            },
-            type: 'icon',
+            if (row.hma < row.bb.lower) {
+               return 'success';
+            }
+
+            if (row.hma > row.bb.upper) {
+               return 'danger';
+            }
+
+            return undefined;
          },
-         {
-            label: 'message',
-            value: 'message',
+         type: 'icon',
+      }, {
+         label: 'trend',
+         value: (row: any) => {
+            if (typeof row.trend !== 'boolean') {
+               return undefined;
+            }
+
+            return row.trend === true ? 'success' : 'danger';
          },
-      ];
+         type: 'icon',
+      }, { label: 'message', value: 'message' }];
    }
 
    getOptions(): any {
-      return {
-         period: '15m',
-         trend_cloud_multiplier: 4,
-         hma_high_period: 9,
-         hma_high_candle_source: 'close',
-         hma_low_period: 9,
-         hma_low_candle_source: 'close',
-      };
+      return { period: '15m', trend_cloud_multiplier: 4, hma_high_period: 9, hma_high_candle_source: 'close', hma_low_period: 9, hma_low_candle_source: 'close' };
    }
 }

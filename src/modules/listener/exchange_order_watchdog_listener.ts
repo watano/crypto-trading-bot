@@ -3,16 +3,7 @@ import { Tickers } from '../../storage/tickers';
 import * as orderUtil from '../../utils/order_util';
 
 export class ExchangeOrderWatchdogListener {
-   constructor(
-      public exchangeManager: any,
-      public instances: any,
-      public stopLossCalculator: any,
-      public riskRewardRatioCalculator: any,
-      public orderExecutor: any,
-      public pairStateManager: any,
-      public logger: any,
-      public tickers: Tickers,
-   ) {}
+   constructor(public exchangeManager: any, public instances: any, public stopLossCalculator: any, public riskRewardRatioCalculator: any, public orderExecutor: any, public pairStateManager: any, public logger: any, public tickers: Tickers) {}
 
    async onTick() {
       const instances = this.instances;
@@ -225,36 +216,32 @@ export class ExchangeOrderWatchdogListener {
       const orders = await exchange.getOrdersForSymbol(position.symbol);
       const orderChanges = orderUtil.syncTrailingStopLossOrder(position, orders);
 
-      await Promise.all(
-         orderChanges.map(async (orderChange) => {
-            if (orderChange.id) {
-               let amount = Math.abs(orderChange.amount);
-               if (position.isLong()) {
-                  amount *= -1;
-               }
-
-               return exchange.updateOrder(orderChange.id, Order.createUpdateOrder(orderChange.id, 0, amount));
+      await Promise.all(orderChanges.map(async (orderChange) => {
+         if (orderChange.id) {
+            let amount = Math.abs(orderChange.amount);
+            if (position.isLong()) {
+               amount *= -1;
             }
 
-            const activationPrice = await stopLossCalculator.calculateForOpenPosition(exchange.getName(), position, { percent: -config.target_percent });
+            return exchange.updateOrder(orderChange.id, Order.createUpdateOrder(orderChange.id, 0, amount));
+         }
 
-            if (!activationPrice) {
-               return undefined;
-            }
+         const activationPrice = await stopLossCalculator.calculateForOpenPosition(exchange.getName(), position, { percent: -config.target_percent });
 
-            const exchangeSymbol = position.symbol.substring(0, 3).toUpperCase();
-            let trailingOffset = (activationPrice * Number.parseFloat(config.stop_percent)) / 100;
-            trailingOffset = exchange.calculatePrice(trailingOffset, exchangeSymbol);
-            const order = Order.createTrailingStopLossOrder(position.symbol, trailingOffset, orderChange.amount);
+         if (!activationPrice) {
+            return undefined;
+         }
 
-            return exchange.order(order);
-         }),
-      )
-         .then((results) => {
-            logger.info(`Trailing stop loss: ${JSON.stringify({ results: results, exchange: exchange.getName() })}`);
-         })
-         .catch((e) => {
-            logger.error(`Trailing stoploss create${JSON.stringify(e)}`);
-         });
+         const exchangeSymbol = position.symbol.substring(0, 3).toUpperCase();
+         let trailingOffset = (activationPrice * Number.parseFloat(config.stop_percent)) / 100;
+         trailingOffset = exchange.calculatePrice(trailingOffset, exchangeSymbol);
+         const order = Order.createTrailingStopLossOrder(position.symbol, trailingOffset, orderChange.amount);
+
+         return exchange.order(order);
+      })).then((results) => {
+         logger.info(`Trailing stop loss: ${JSON.stringify({ results: results, exchange: exchange.getName() })}`);
+      }).catch((e) => {
+         logger.error(`Trailing stoploss create${JSON.stringify(e)}`);
+      });
    }
 }

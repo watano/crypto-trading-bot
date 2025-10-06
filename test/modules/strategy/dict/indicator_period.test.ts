@@ -3,13 +3,7 @@ import { IndicatorPeriod } from '~/src/modules/strategy/dict/indicator_period';
 
 describe('#test indicator', () => {
    it('test that yield visiting is possible', () => {
-      const ip = new IndicatorPeriod(
-         {},
-         {
-            macd: [{ test: 'test1' }, { test: 'test2' }, { test: 'test3' }],
-            sma: [1, 2, 3, 4, 5],
-         },
-      );
+      const ip = new IndicatorPeriod({}, { macd: [{ test: 'test1' }, { test: 'test2' }, { test: 'test3' }], sma: [1, 2, 3, 4, 5] });
 
       const calls: any[] = [];
 
@@ -26,13 +20,7 @@ describe('#test indicator', () => {
    });
 
    it('test that helper for latest elements are given', () => {
-      const ip = new IndicatorPeriod(
-         {},
-         {
-            macd: [{ test: 'test1' }, { test: 'test2' }, { test: 'test3' }],
-            sma: [1, 2, 3, 4, 5],
-         },
-      );
+      const ip = new IndicatorPeriod({}, { macd: [{ test: 'test1' }, { test: 'test2' }, { test: 'test3' }], sma: [1, 2, 3, 4, 5] });
 
       expect({ macd: { test: 'test3' }, sma: 5 }).toEqual(ip.getLatestIndicators());
       expect(5).toEqual(ip.getLatestIndicator('sma'));

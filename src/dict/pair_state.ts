@@ -129,7 +129,6 @@ export class PairState {
    }
 
    /**
-    *
     * @returns {Order|undefined}
     */
    getOrder(): Order | undefined {
@@ -163,7 +162,6 @@ export class PairState {
    }
 
    /**
-    *
     * @returns {ExchangeOrder|undefined}
     */
    getExchangeOrder(): ExchangeOrder | undefined {

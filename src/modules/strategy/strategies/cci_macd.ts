@@ -6,21 +6,13 @@ export class CciMacd {
    }
 
    buildIndicator(indicatorBuilder: any, options: any): void {
-      indicatorBuilder.add('cci', 'cci', options.period, {
-         length: 40,
-      });
+      indicatorBuilder.add('cci', 'cci', options.period, { length: 40 });
 
       indicatorBuilder.add('adx', 'adx', options.period);
 
-      indicatorBuilder.add('macd', 'macd', options.period, {
-         fast_length: 12 * 2,
-         slow_length: 26 * 2,
-         signal_length: 9 * 2,
-      });
+      indicatorBuilder.add('macd', 'macd', options.period, { fast_length: 12 * 2, slow_length: 26 * 2, signal_length: 9 * 2 });
 
-      indicatorBuilder.add('sma', 'sma', '15m', {
-         length: 400,
-      });
+      indicatorBuilder.add('sma', 'sma', '15m', { length: 400 });
    }
 
    async period(indicatorPeriod: any, options: any): Promise<SignalResult> {
@@ -112,43 +104,13 @@ export class CciMacd {
    }
 
    getBacktestColumns(): any[] {
-      return [
-         {
-            label: 'cci',
-            value: 'cci',
-            type: 'oscillator',
-            range: [150, -150],
-         },
-         {
-            label: 'macd',
-            value: 'macd.histogram',
-         },
-         {
-            label: 'macd_pivot',
-            value: 'macd_pivot',
-         },
-         {
-            label: 'hint',
-            value: 'hint',
-            type: 'icon',
-         },
-         {
-            label: 'direction',
-            value: 'direction',
-         },
-         {
-            label: 'adx',
-            value: 'adx',
-         },
-      ];
+      return [{ label: 'cci', value: 'cci', type: 'oscillator', range: [150, -150] }, { label: 'macd', value: 'macd.histogram' }, { label: 'macd_pivot', value: 'macd_pivot' }, { label: 'hint', value: 'hint', type: 'icon' }, {
+         label: 'direction',
+         value: 'direction',
+      }, { label: 'adx', value: 'adx' }];
    }
 
    getOptions(): any {
-      return {
-         period: '15m',
-         macd_pivot_reversal: 5,
-         cci_trigger: 150,
-         cci_cross_lookback_for_macd_trigger: 12,
-      };
+      return { period: '15m', macd_pivot_reversal: 5, cci_trigger: 150, cci_cross_lookback_for_macd_trigger: 12 };
    }
 }

@@ -4,13 +4,7 @@ import { SystemUtil } from '~/src/modules/system/system_util';
 
 describe('#system util test', () => {
    it('test configuration extraction', () => {
-      const systemUtil = new SystemUtil({
-         root: 'test123',
-         root2: undefined,
-         webserver: {
-            test: 8080,
-         },
-      });
+      const systemUtil = new SystemUtil({ root: 'test123', root2: undefined, webserver: { test: 8080 } });
 
       assert.equal(systemUtil.getConfig('webserver.test'), 8080);
       assert.equal(systemUtil.getConfig('root'), 'test123');

@@ -1,5 +1,4 @@
 /**
- *
  * @param {string} side
  * @param {number} currentPrice
  * @param {number} entryPrice
@@ -17,8 +16,5 @@ export const getProfitAsPercent = (side: string, currentPrice: number, entryPric
 };
 
 export const camelToSnakeCase = (text: string): string => {
-   return text
-      .replace(/(.)([A-Z][a-z]+)/, '$1_$2')
-      .replace(/([a-z0-9])([A-Z])/, '$1_$2')
-      .toLowerCase();
+   return text.replace(/(.)([A-Z][a-z]+)/, '$1_$2').replace(/([a-z0-9])([A-Z])/, '$1_$2').toLowerCase();
 };

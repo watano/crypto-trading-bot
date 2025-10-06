@@ -9,10 +9,7 @@ export const findPositionEntryFromTrades = (trades: any, balance: any, side: str
       throw new Error(`Invalid entry side: ${side}`);
    }
 
-   const result: any = {
-      size: 0,
-      costs: 0,
-   };
+   const result: any = { size: 0, costs: 0 };
 
    const sideBlocker = side === 'short' ? 'sell' : 'buy';
    for (const trade of trades) {

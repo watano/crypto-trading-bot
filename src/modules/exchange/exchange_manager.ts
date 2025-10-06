@@ -21,17 +21,15 @@ export class ExchangeManager {
 
       const symbols: { [exchangeName: string]: string[] } = {};
 
-      exchanges
-         .map((exchange) => exchange.getName())
-         .forEach((exchangeName) => {
-            const pairs = this.instances.symbols.filter((symbol: any) => symbol.exchange === exchangeName);
+      exchanges.map((exchange) => exchange.getName()).forEach((exchangeName) => {
+         const pairs = this.instances.symbols.filter((symbol: any) => symbol.exchange === exchangeName);
 
-            if (pairs.length === 0) {
-               return;
-            }
+         if (pairs.length === 0) {
+            return;
+         }
 
-            symbols[exchangeName] = pairs;
-         });
+         symbols[exchangeName] = pairs;
+      });
 
       const activeExchanges = exchanges.filter((exchange: any) => exchange.getName() in symbols);
 

@@ -18,10 +18,7 @@ describe('#strategy obv_pump_dump', () => {
       const obv = new ObvPumpDump();
 
       const result = await obv.period(
-         new IndicatorPeriod(createStrategyContext(), {
-            ema: [380, 370],
-            obv: [-2358, -2395, -2395, -2395, -2385, -2165, -1987, -1987, -1990, -1990, -1990, -1990, -1990, -1948, -1808, -1601, -1394, -1394, -1147, 988, 3627, 6607, 11467],
-         }),
+         new IndicatorPeriod(createStrategyContext(), { ema: [380, 370], obv: [-2358, -2395, -2395, -2395, -2385, -2165, -1987, -1987, -1990, -1990, -1990, -1990, -1990, -1948, -1808, -1601, -1394, -1394, -1147, 988, 3627, 6607, 11467] }),
          {},
       );
 
@@ -33,10 +30,7 @@ describe('#strategy obv_pump_dump', () => {
       const obv = new ObvPumpDump();
 
       const result = await obv.period(
-         new IndicatorPeriod(createStrategyContext(), {
-            ema: [380, 370],
-            obv: [-2358, -2395, -2395, -2395, -2385, -2165, -1987, -1987, -1990, -1990, -1990, -1990, -1990, -1948, -1808, -1601, -1394, -1394, -1147, 988, 3627, 6607, 11467],
-         }),
+         new IndicatorPeriod(createStrategyContext(), { ema: [380, 370], obv: [-2358, -2395, -2395, -2395, -2385, -2165, -1987, -1987, -1990, -1990, -1990, -1990, -1990, -1948, -1808, -1601, -1394, -1394, -1147, 988, 3627, 6607, 11467] }),
          { trigger_multiplier: 1000 },
       );
 

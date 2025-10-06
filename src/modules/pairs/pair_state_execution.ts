@@ -89,16 +89,14 @@ export class PairStateExecution {
       if (newOrders.length > 1) {
          const state = pairState.getExchangeOrder();
          if (state) {
-            newOrders
-               .filter((o: any) => state.id !== o.id && state.id !== o.id)
-               .forEach(async (order: any) => {
-                  this.logger.error(`Pair State: Clear invalid orders:${JSON.stringify([order])}`);
-                  try {
-                     await this.orderExecutor.cancelOrder(pairState.exchange, order.id);
-                  } catch (e) {
-                     console.log(e);
-                  }
-               });
+            newOrders.filter((o: any) => state.id !== o.id && state.id !== o.id).forEach(async (order: any) => {
+               this.logger.error(`Pair State: Clear invalid orders:${JSON.stringify([order])}`);
+               try {
+                  await this.orderExecutor.cancelOrder(pairState.exchange, order.id);
+               } catch (e) {
+                  console.log(e);
+               }
+            });
          }
       }
    }
@@ -162,16 +160,14 @@ export class PairStateExecution {
       if (newOrders.length > 1) {
          const state = pairState.getExchangeOrder();
          if (state) {
-            newOrders
-               .filter((o: any) => state.id !== o.id && state.id !== o.id)
-               .forEach(async (order: any) => {
-                  this.logger.error(`Pair State: Clear invalid orders:${JSON.stringify([order])}`);
-                  try {
-                     await this.orderExecutor.cancelOrder(pairState.exchange, order.id);
-                  } catch (e) {
-                     console.log(e);
-                  }
-               });
+            newOrders.filter((o: any) => state.id !== o.id && state.id !== o.id).forEach(async (order: any) => {
+               this.logger.error(`Pair State: Clear invalid orders:${JSON.stringify([order])}`);
+               try {
+                  await this.orderExecutor.cancelOrder(pairState.exchange, order.id);
+               } catch (e) {
+                  console.log(e);
+               }
+            });
          }
       }
    }

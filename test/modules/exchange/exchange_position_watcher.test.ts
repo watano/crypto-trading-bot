@@ -10,19 +10,15 @@ describe('#exchange position watcher', () => {
 
       let i = 0;
       const events: { [key: string]: PositionStateChangeEvent } = {};
-      const exchangeManager = new ExchangePositionWatcher(
-         {
-            getPositions: async () => {
-               return runs[i++];
-            },
+      const exchangeManager = new ExchangePositionWatcher({
+         getPositions: async () => {
+            return runs[i++];
          },
-         {
-            emit: (eventName: string, event: PositionStateChangeEvent) => {
-               events[eventName] = event;
-            },
+      }, {
+         emit: (eventName: string, event: PositionStateChangeEvent) => {
+            events[eventName] = event;
          },
-         { info: () => {} },
-      );
+      }, { info: () => { } });
 
       await exchangeManager.onPositionStateChangeTick();
       await exchangeManager.onPositionStateChangeTick();
@@ -44,19 +40,15 @@ describe('#exchange position watcher', () => {
 
       let i = 0;
       const events: { [key: string]: PositionStateChangeEvent } = {};
-      const exchangeManager = new ExchangePositionWatcher(
-         {
-            getPositions: async () => {
-               return runs[i++];
-            },
+      const exchangeManager = new ExchangePositionWatcher({
+         getPositions: async () => {
+            return runs[i++];
          },
-         {
-            emit: (eventName: string, event: PositionStateChangeEvent) => {
-               events[eventName] = event;
-            },
+      }, {
+         emit: (eventName: string, event: PositionStateChangeEvent) => {
+            events[eventName] = event;
          },
-         { info: () => {} },
-      );
+      }, { info: () => { } });
 
       await exchangeManager.onPositionStateChangeTick();
       await exchangeManager.onPositionStateChangeTick();
@@ -74,27 +66,22 @@ describe('#exchange position watcher', () => {
    });
 
    it('test that no change should not trigger event', async () => {
-      const runs = [
-         [new ExchangePosition('foobar', new Position('BTCUSD', 'long', 1)), new ExchangePosition('foobar2', new Position('BTCUSD2', 'long', 1))],
-         [new ExchangePosition('foobar', new Position('BTCUSD', 'long', 1)), new ExchangePosition('foobar2', new Position('BTCUSD2', 'long', 1))],
-         [new ExchangePosition('foobar', new Position('BTCUSD', 'long', 1)), new ExchangePosition('foobar2', new Position('BTCUSD2', 'long', 1))],
-      ];
+      const runs = [[new ExchangePosition('foobar', new Position('BTCUSD', 'long', 1)), new ExchangePosition('foobar2', new Position('BTCUSD2', 'long', 1))], [
+         new ExchangePosition('foobar', new Position('BTCUSD', 'long', 1)),
+         new ExchangePosition('foobar2', new Position('BTCUSD2', 'long', 1)),
+      ], [new ExchangePosition('foobar', new Position('BTCUSD', 'long', 1)), new ExchangePosition('foobar2', new Position('BTCUSD2', 'long', 1))]];
 
       let i = 0;
       const events: { [key: string]: PositionStateChangeEvent } = {};
-      const exchangeManager = new ExchangePositionWatcher(
-         {
-            getPositions: async () => {
-               return runs[i++];
-            },
+      const exchangeManager = new ExchangePositionWatcher({
+         getPositions: async () => {
+            return runs[i++];
          },
-         {
-            emit: (eventName: string, event: PositionStateChangeEvent) => {
-               events[eventName] = event;
-            },
+      }, {
+         emit: (eventName: string, event: PositionStateChangeEvent) => {
+            events[eventName] = event;
          },
-         { info: () => {} },
-      );
+      }, { info: () => { } });
 
       await exchangeManager.onPositionStateChangeTick();
       await exchangeManager.onPositionStateChangeTick();
@@ -108,19 +95,15 @@ describe('#exchange position watcher', () => {
 
       let i = 0;
       const events: PositionStateChangeEvent[] = [];
-      const exchangeManager = new ExchangePositionWatcher(
-         {
-            getPositions: async () => {
-               return runs[i++];
-            },
+      const exchangeManager = new ExchangePositionWatcher({
+         getPositions: async () => {
+            return runs[i++];
          },
-         {
-            emit: (eventName: string, event: PositionStateChangeEvent) => {
-               events.push(event);
-            },
+      }, {
+         emit: (eventName: string, event: PositionStateChangeEvent) => {
+            events.push(event);
          },
-         { info: () => {} },
-      );
+      }, { info: () => { } });
 
       await exchangeManager.onPositionStateChangeTick();
       expect(Object.keys(exchangeManager.positions).length).toBe(1);

@@ -7,21 +7,15 @@ export const calculateOrderAmount = (price: number, capital: number): number => 
 
 export const syncOrderByType = (position: Position, orders: ExchangeOrder[], type: string): ExchangeOrder[] => {
    const stopOrders = orders.filter((order) => order.getType() === type);
-   console.log(stopOrders);
    if (stopOrders.length === 0) {
-      return [<ExchangeOrder>(<unknown>{
-            amount: Math.abs(position.amount),
-         })];
+      return [<ExchangeOrder>(<unknown>{ amount: Math.abs(position.amount) })];
    }
 
    const stopOrder = stopOrders[0];
 
    // only update if we 1 % out of range; to get not unit amount lot size issues
    if (isPercentDifferentGreaterThen(position.amount, stopOrder.amount, 1)) {
-      return [<ExchangeOrder>(<unknown>{
-            id: stopOrder.id.toString(),
-            amount: position.amount,
-         })];
+      return [<ExchangeOrder>(<unknown>{ id: stopOrder.id.toString(), amount: position.amount })];
    }
 
    return [];

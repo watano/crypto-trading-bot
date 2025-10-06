@@ -8,9 +8,7 @@ export class ObvPumpDump {
    public buildIndicator(indicatorBuilder: any, options?: any): void {
       indicatorBuilder.add('obv', 'obv', '1m');
 
-      indicatorBuilder.add('ema', 'ema', '1m', {
-         length: 200,
-      });
+      indicatorBuilder.add('ema', 'ema', '1m', { length: 200 });
    }
 
    async period(indicatorPeriod: any, options: any): Promise<SignalResult> {
@@ -26,10 +24,7 @@ export class ObvPumpDump {
       const price = indicatorPeriod.getPrice();
       const ema = indicatorPeriod.getIndicator('ema').slice(-1)[0];
 
-      const debug: any = {
-         obv: obv.slice(-1)[0],
-         ema: ema,
-      };
+      const debug: any = { obv: obv.slice(-1)[0], ema: ema };
 
       if (price > ema) {
          // long
@@ -67,10 +62,6 @@ export class ObvPumpDump {
    }
 
    getOptions(): any {
-      return {
-         period: '15m',
-         trigger_multiplier: 2,
-         trigger_time_windows: 3,
-      };
+      return { period: '15m', trigger_multiplier: 2, trigger_time_windows: 3 };
    }
 }

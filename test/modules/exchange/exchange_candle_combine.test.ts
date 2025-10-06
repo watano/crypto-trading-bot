@@ -24,20 +24,7 @@ describe('#exchange candle combine', () => {
          },
       });
 
-      const result = await exchangeCandleCombine.fetchCombinedCandles('bitmex', 'XTBUSD', '15m', [
-         {
-            name: 'binance',
-            symbol: 'BTCUSD',
-         },
-         {
-            name: 'gap',
-            symbol: 'FOOUSD',
-         },
-         {
-            name: 'foobar',
-            symbol: 'FOOUSD',
-         },
-      ]);
+      const result = await exchangeCandleCombine.fetchCombinedCandles('bitmex', 'XTBUSD', '15m', [{ name: 'binance', symbol: 'BTCUSD' }, { name: 'gap', symbol: 'FOOUSD' }, { name: 'foobar', symbol: 'FOOUSD' }]);
 
       expect(result.bitmex.length).toBe(22);
       expect(result['binanceBTCUSD'].length).toBe(22);

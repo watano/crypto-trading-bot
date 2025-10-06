@@ -35,15 +35,10 @@ export class SignalResult {
    }
 
    placeBuyOrder(amountCurrency: number, price: number): void {
-      this.placeOrders.push({
-         side: Order.SIDE_LONG,
-         amount_currency: amountCurrency,
-         price: price,
-      });
+      this.placeOrders.push({ side: Order.SIDE_LONG, amount_currency: amountCurrency, price: price });
    }
 
    /**
-    *
     * @returns {[Order]}
     */
    getPlaceOrder(): { side: string; amount_currency: number; price: number }[] {

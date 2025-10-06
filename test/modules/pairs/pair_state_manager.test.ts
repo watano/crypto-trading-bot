@@ -3,6 +3,7 @@ import { ExchangeOrder } from '~/src/dict/exchange_order';
 import { Order } from '~/src/dict/order';
 import { OrderCapital } from '~/src/dict/order_capital';
 import { PairState } from '~/src/dict/pair_state';
+import { OrderExecutor } from '~/src/modules/order/order_executor';
 import { PairConfig } from '~/src/modules/pairs/pair_config';
 import { PairInterval } from '~/src/modules/pairs/pair_interval';
 import { PairStateExecution } from '~/src/modules/pairs/pair_state_execution';
@@ -10,13 +11,24 @@ import { PairStateManager } from '~/src/modules/pairs/pair_state_manager';
 import { SystemUtil } from '~/src/modules/system/system_util';
 
 describe('#pair state manager', () => {
-   it.skip('test pair state changes', () => {
+   it('test pair state changes', () => {
+      let onPairStateExecutionTick: PairState | undefined;
+      let adjustOpenOrdersPrice: PairState | undefined;
       const manager = new PairStateManager(
-         { info: () => {}, debug: () => {} },
+         { info: () => { }, debug: () => { } },
          { getSymbolCapital: () => OrderCapital.createAsset(12) } as unknown as PairConfig, //
          { getConfig: () => 1 } as unknown as SystemUtil,
-         {} as unknown as PairStateExecution,
-         {},
+         {
+            onPairStateExecutionTick: (pairState: PairState) => {
+               onPairStateExecutionTick = pairState;
+            },
+         } as unknown as PairStateExecution,
+
+         {
+            adjustOpenOrdersPrice: (pairState: PairState) => {
+               adjustOpenOrdersPrice = pairState;
+            },
+         } as OrderExecutor,
       );
 
       manager.update('foo1', 'BTCUSD2', 'long', { foobar: 'test' });
@@ -64,13 +76,13 @@ describe('#pair state manager', () => {
    it('test pair state should be cleared', () => {
       const manager = new PairStateManager(
          {
-            info: () => {}, //
-            debug: () => {},
+            info: () => { }, //
+            debug: () => { },
          },
          { getSymbolCapital: () => OrderCapital.createAsset(12) } as unknown as PairConfig,
          { getConfig: () => 1 } as unknown as SystemUtil,
          {} as unknown as PairStateExecution,
-         { addInterval: () => {}, clearInterval: () => {} },
+         { addInterval: () => { }, clearInterval: () => { } },
       );
 
       manager.update('foo1', 'BTCUSD2', 'long', { foobar: 'test' });
@@ -89,7 +101,7 @@ describe('#pair state manager', () => {
       let adjustOpenOrdersPrice: PairState | undefined;
 
       const manager = new PairStateManager(
-         { info: () => {}, debug: () => {} },
+         { info: () => { }, debug: () => { } },
          { getSymbolCapital: () => OrderCapital.createAsset(12) } as unknown as PairConfig,
          { getConfig: () => 1 } as unknown as SystemUtil,
          {
@@ -101,14 +113,14 @@ describe('#pair state manager', () => {
             adjustOpenOrdersPrice: (pairState: PairState) => {
                adjustOpenOrdersPrice = pairState;
             },
-         },
+         } as OrderExecutor,
       );
 
       manager.update('foo1', 'BTCUSD2', 'long', { foobar: 'test' });
 
       // await addIntervalCallback();
-      //FIXME
-      //expect(onPairStateExecutionTick?.getSymbol()).toBe('BTCUSD2');
-      //expect(adjustOpenOrdersPrice?.getSymbol()).toBe('BTCUSD2');
+      // FIXME
+      // expect(onPairStateExecutionTick?.getSymbol()).toBe('BTCUSD2');
+      // expect(adjustOpenOrdersPrice?.getSymbol()).toBe('BTCUSD2');
    });
 });

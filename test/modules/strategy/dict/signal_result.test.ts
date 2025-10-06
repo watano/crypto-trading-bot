@@ -16,11 +16,6 @@ describe('#test signal object', () => {
       signal.addDebug('test', 'foobar2');
       signal.mergeDebug({ test3: 'foobar', test5: 'foobar' });
 
-      expect(signal.getDebug()).toEqual({
-         test: 'foobar2',
-         test2: 'test',
-         test3: 'foobar',
-         test5: 'foobar',
-      });
+      expect(signal.getDebug()).toEqual({ test: 'foobar2', test2: 'test', test3: 'foobar', test5: 'foobar' });
    });
 });

@@ -38,14 +38,11 @@ export class CreateOrderListener {
          return;
       }
 
-      exchange
-         .updateOrder(currentOrder.id, orderEvent.order)
-         .then((order: ExchangeOrder) => {
-            console.log(`OrderUpdate: ${JSON.stringify(order)}`);
-         })
-         .catch(() => {
-            console.log('order update error');
-         });
+      exchange.updateOrder(currentOrder.id, orderEvent.order).then((order: ExchangeOrder) => {
+         console.log(`OrderUpdate: ${JSON.stringify(order)}`);
+      }).catch(() => {
+         console.log('order update error');
+      });
    }
 
    triggerOrder(exchange: any, order: any, retry: number = 0): void {
@@ -58,23 +55,20 @@ export class CreateOrderListener {
          console.log(`Retry (${retry}) creating order: ${JSON.stringify(order)}`);
       }
 
-      exchange
-         .order(order)
-         .then((order: ExchangeOrder) => {
-            if (order.status === 'rejected') {
-               setTimeout(() => {
-                  console.log(`Order rejected: ${JSON.stringify(order)}`);
-                  this.triggerOrder(exchange, order, retry + 1);
-               }, 1500);
+      exchange.order(order).then((order: ExchangeOrder) => {
+         if (order.status === 'rejected') {
+            setTimeout(() => {
+               console.log(`Order rejected: ${JSON.stringify(order)}`);
+               this.triggerOrder(exchange, order, retry + 1);
+            }, 1500);
 
-               return;
-            }
+            return;
+         }
 
-            console.log(`Order created: ${JSON.stringify(order)}`);
-         })
-         .catch((e: any) => {
-            console.log(e);
-            console.log(`Order create error: ${JSON.stringify(e)} - ${JSON.stringify(order)}`);
-         });
+         console.log(`Order created: ${JSON.stringify(order)}`);
+      }).catch((e: any) => {
+         console.log(e);
+         console.log(`Order create error: ${JSON.stringify(e)} - ${JSON.stringify(order)}`);
+      });
    }
 }

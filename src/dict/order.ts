@@ -32,15 +32,7 @@ export class Order {
       return 'post_only';
    }
 
-   constructor(
-      public id: string,
-      public symbol: string,
-      public side: string,
-      public price: number,
-      public amount: number,
-      public type: string,
-      public options: Record<string, any> = {},
-   ) {
+   constructor(public id: string, public symbol: string, public side: string, public price: number, public amount: number, public type: string, public options: Record<string, any> = {}) {
       if (![Order.SIDE_LONG, Order.SIDE_SHORT].includes(side)) {
          throw new Error(`Invalid order side given: ${side}`);
       }
@@ -109,9 +101,7 @@ export class Order {
          price,
          amount,
          Order.TYPE_LIMIT,
-         defu(options, {
-            post_only: true,
-         }),
+         defu(options, { post_only: true }),
       );
    }
 
@@ -132,17 +122,7 @@ export class Order {
    }
 
    static createLimitPostOnlyOrderAutoSide(symbol: string, price: number, amount: number, options?: Record<string, any>) {
-      return new Order(
-         Math.round(new Date().getTime() * Math.random()).toString(),
-         symbol,
-         price < 0 ? Order.SIDE_SHORT : Order.SIDE_LONG,
-         price,
-         amount,
-         Order.TYPE_LIMIT,
-         defu(options, {
-            post_only: true,
-         }),
-      );
+      return new Order(Math.round(new Date().getTime() * Math.random()).toString(), symbol, price < 0 ? Order.SIDE_SHORT : Order.SIDE_LONG, price, amount, Order.TYPE_LIMIT, defu(options, { post_only: true }));
    }
 
    static createCloseLimitPostOnlyReduceOrder(symbol: string, price: number, amount: number) {
@@ -153,23 +133,12 @@ export class Order {
          price,
          amount,
          Order.TYPE_LIMIT,
-         {
-            post_only: true,
-            close: true,
-         },
+         { post_only: true, close: true },
       );
    }
 
    static createLimitPostOnlyOrderAutoAdjustedPriceOrder(symbol: string, amount: number, options: Record<string, any> = {}) {
-      return Order.createLimitPostOnlyOrder(
-         symbol,
-         amount < 0 ? Order.SIDE_SHORT : Order.SIDE_LONG,
-         0,
-         amount,
-         defu(options, {
-            adjust_price: true,
-         }),
-      );
+      return Order.createLimitPostOnlyOrder(symbol, amount < 0 ? Order.SIDE_SHORT : Order.SIDE_LONG, 0, amount, defu(options, { adjust_price: true }));
    }
 
    static createRetryOrder(order: Order, amount?: number) {

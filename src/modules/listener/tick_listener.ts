@@ -73,17 +73,7 @@ export class TickListener {
          this.notifier.send(`[${signal} (${strategyKey})] ${symbol.exchange}:${symbol.symbol} - ${ticker.ask}`);
 
          // log signal
-         this.signalLogger.signal(
-            symbol.exchange,
-            symbol.symbol,
-            {
-               price: ticker.ask,
-               strategy: strategyKey,
-               raw: JSON.stringify(result),
-            },
-            signal,
-            strategyKey,
-         );
+         this.signalLogger.signal(symbol.exchange, symbol.symbol, { price: ticker.ask, strategy: strategyKey, raw: JSON.stringify(result) }, signal, strategyKey);
       }
    }
 
@@ -124,9 +114,7 @@ export class TickListener {
          throw new Error(`Invalid signal: ${JSON.stringify(signal, strategy)}`);
       }
 
-      const signalWindow = moment()
-         .subtract(_.get(symbol, 'trade.signal_slowdown_minutes', 15), 'minutes')
-         .toDate();
+      const signalWindow = moment().subtract(_.get(symbol, 'trade.signal_slowdown_minutes', 15), 'minutes').toDate();
 
       const noteKey = symbol.exchange + symbol.symbol;
       if (noteKey in this.notified && this.notified[noteKey] >= signalWindow) {
@@ -136,17 +124,7 @@ export class TickListener {
       // log signal
       this.logger.info([new Date().toISOString(), signal, strategyKey, symbol.exchange, symbol.symbol, ticker.ask].join(' '));
       this.notifier.send(`[${signal} (${strategyKey})] ${symbol.exchange}:${symbol.symbol} - ${ticker.ask}`);
-      this.signalLogger.signal(
-         symbol.exchange,
-         symbol.symbol,
-         {
-            price: ticker.ask,
-            strategy: strategyKey,
-            raw: JSON.stringify(result),
-         },
-         signal,
-         strategyKey,
-      );
+      this.signalLogger.signal(symbol.exchange, symbol.symbol, { price: ticker.ask, strategy: strategyKey, raw: JSON.stringify(result) }, signal, strategyKey);
       this.notified[noteKey] = new Date();
 
       await this.pairStateManager.update(symbol.exchange, symbol.symbol, signal);
@@ -165,16 +143,10 @@ export class TickListener {
    async startStrategyIntervals(): Promise<void> {
       this.logger.info('Starting strategy intervals');
 
-      const types = [
-         {
-            name: 'watch',
-            items: this.instances.symbols.filter((sym: any) => sym.strategies && sym.strategies.length > 0),
-         },
-         {
-            name: 'trade',
-            items: this.instances.symbols.filter((sym: any) => sym.trade?.strategies && sym.trade.strategies.length > 0),
-         },
-      ];
+      const types = [{ name: 'watch', items: this.instances.symbols.filter((sym: any) => sym.strategies && sym.strategies.length > 0) }, {
+         name: 'trade',
+         items: this.instances.symbols.filter((sym: any) => sym.trade?.strategies && sym.trade.strategies.length > 0),
+      }];
 
       types.forEach((type) => {
          this.logger.info(`Strategy: "${type.name}" found "${type.items.length}" valid symbols`);
@@ -228,12 +200,9 @@ export class TickListener {
                   this.logger.info(`"${symbol.exchange}" - "${symbol.symbol}" - "${type.name}" first strategy run "${strategy.strategy}" now every ${(interval / 60 / 1000).toFixed(2)} minutes`);
 
                   // first run call
-                  setTimeout(
-                     async () => {
-                        await strategyIntervalCallback();
-                     },
-                     1000 + Math.floor(Math.random() * (800 - 300 + 1)) + 100,
-                  );
+                  setTimeout(async () => {
+                     await strategyIntervalCallback();
+                  }, 1000 + Math.floor(Math.random() * (800 - 300 + 1)) + 100);
 
                   // continuous run
                   setInterval(async () => {

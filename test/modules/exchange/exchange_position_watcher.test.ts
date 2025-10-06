@@ -18,7 +18,7 @@ describe('#exchange position watcher', () => {
          emit: (eventName: string, event: PositionStateChangeEvent) => {
             events[eventName] = event;
          },
-      }, { info: () => { } });
+      }, { info: () => {} });
 
       await exchangeManager.onPositionStateChangeTick();
       await exchangeManager.onPositionStateChangeTick();
@@ -48,7 +48,7 @@ describe('#exchange position watcher', () => {
          emit: (eventName: string, event: PositionStateChangeEvent) => {
             events[eventName] = event;
          },
-      }, { info: () => { } });
+      }, { info: () => {} });
 
       await exchangeManager.onPositionStateChangeTick();
       await exchangeManager.onPositionStateChangeTick();
@@ -81,7 +81,7 @@ describe('#exchange position watcher', () => {
          emit: (eventName: string, event: PositionStateChangeEvent) => {
             events[eventName] = event;
          },
-      }, { info: () => { } });
+      }, { info: () => {} });
 
       await exchangeManager.onPositionStateChangeTick();
       await exchangeManager.onPositionStateChangeTick();
@@ -103,7 +103,7 @@ describe('#exchange position watcher', () => {
          emit: (eventName: string, event: PositionStateChangeEvent) => {
             events.push(event);
          },
-      }, { info: () => { } });
+      }, { info: () => {} });
 
       await exchangeManager.onPositionStateChangeTick();
       expect(Object.keys(exchangeManager.positions).length).toBe(1);

@@ -7,7 +7,7 @@ import { StopLossCalculator } from '~/src/modules/order/stop_loss_calculator';
 import { Tickers } from '~/src/storage/tickers';
 
 describe('#stop loss order calculation', () => {
-   const fakeLogger = <Logger<any>>{ info: () => { } };
+   const fakeLogger = <Logger<any>> { info: () => {} };
 
    it('calculate stop lose for long', async () => {
       const tickers = new Tickers();

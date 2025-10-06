@@ -11,7 +11,6 @@ import { SignalResult } from './dict/signal_result';
 import { CCI } from './strategies/cci';
 import { Macd } from './strategies/macd';
 
-
 export class StrategyManager {
    public strategies: any[] = [new CCI(), new Macd()];
    constructor(public technicalAnalysisValidator: any, public exchangeCandleCombine: any, public logger?: any, public projectDir?: string) {

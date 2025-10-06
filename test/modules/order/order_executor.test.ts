@@ -28,7 +28,7 @@ describe('#order executor', () => {
 
       const configs: any = { 'order.retry': 3, 'order.retry_ms': 8 };
 
-      const pairState = new PairState('exchange', 'FOOUSD', 'short', {}, true, () => { });
+      const pairState = new PairState('exchange', 'FOOUSD', 'short', {}, true, () => {});
 
       let i = 0;
       const executor = new OrderExecutor(
@@ -47,7 +47,7 @@ describe('#order executor', () => {
                return configs[key];
             },
          } as unknown as SystemUtil,
-         { info: () => { }, error: () => { } },
+         { info: () => {}, error: () => {} },
          { all: () => [pairState] },
       );
 
@@ -85,7 +85,7 @@ describe('#order executor', () => {
                return configs[key];
             },
          } as unknown as SystemUtil,
-         { info: () => { }, error: () => { } },
+         { info: () => {}, error: () => {} },
       );
 
       const result = await executor.executeOrder('foobar', Order.createLimitPostOnlyOrderAutoSide('BTCUSD', 1337, -10, {}));
@@ -123,7 +123,7 @@ describe('#order executor', () => {
                return configs[key];
             },
          } as unknown as SystemUtil,
-         { info: () => { }, error: () => { } },
+         { info: () => {}, error: () => {} },
       );
 
       const result = await executor.executeOrder('foobar', Order.createLimitPostOnlyOrderAutoSide('BTCUSD', 1337, -10));
@@ -136,7 +136,7 @@ describe('#order executor', () => {
    it('test that adjust price handler must clean up unknown orders', async () => {
       const exchangeOrder = new ExchangeOrder('1815-1337', '', '', 0, 0, false, undefined, 'buy', ExchangeOrder.TYPE_LIMIT);
 
-      const pairState = new PairState('exchange', 'FOOUSD', 'short', {}, true, () => { });
+      const pairState = new PairState('exchange', 'FOOUSD', 'short', {}, true, () => {});
       pairState.setExchangeOrder(exchangeOrder);
 
       const executor = new OrderExecutor(
@@ -151,7 +151,7 @@ describe('#order executor', () => {
          } as unknown as ExchangeManager,
          {} as unknown as Tickers,
          undefined,
-         { debug: () => { } },
+         { debug: () => {} },
          { all: () => [pairState] },
       );
 
@@ -164,7 +164,7 @@ describe('#order executor', () => {
          {} as unknown as ExchangeManager, //
          {} as unknown as Tickers,
          undefined,
-         { debug: () => { } },
+         { debug: () => {} },
          { all: () => [] },
       );
 
@@ -185,7 +185,7 @@ describe('#order executor', () => {
       let exchangeName: string | undefined;
       let orderUpdate: any;
 
-      const pairState = new PairState('exchange', 'FOOUSD', 'short', {}, true, () => { });
+      const pairState = new PairState('exchange', 'FOOUSD', 'short', {}, true, () => {});
       pairState.setExchangeOrder(exchangeOrder);
 
       const executor = new OrderExecutor(
@@ -214,7 +214,7 @@ describe('#order executor', () => {
             },
          } as unknown as Tickers,
          undefined,
-         { info: () => { }, error: () => { } },
+         { info: () => {}, error: () => {} },
       );
 
       await executor.adjustOpenOrdersPrice(pairState);
@@ -229,7 +229,7 @@ describe('#order executor', () => {
 
       const logMessages: any = { info: [], error: [] };
 
-      const pairState = new PairState('exchange', 'FOOUSD', 'short', {}, true, () => { });
+      const pairState = new PairState('exchange', 'FOOUSD', 'short', {}, true, () => {});
       pairState.setExchangeOrder(exchangeOrder);
 
       const executor = new OrderExecutor({
@@ -270,7 +270,7 @@ describe('#order executor', () => {
 
       const logMessages: any = { info: [], error: [] };
 
-      const pairState = new PairState('exchange', 'FOOUSD', 'short', {}, true, () => { });
+      const pairState = new PairState('exchange', 'FOOUSD', 'short', {}, true, () => {});
       pairState.setExchangeOrder(exchangeOrder);
 
       const executor = new OrderExecutor({
@@ -311,7 +311,7 @@ describe('#order executor', () => {
       let exchangeName: string | undefined;
       let orderUpdate: any;
 
-      const pairState = new PairState('exchange', 'FOOUSD', 'short', {}, true, () => { });
+      const pairState = new PairState('exchange', 'FOOUSD', 'short', {}, true, () => {});
       pairState.setExchangeOrder(exchangeOrder);
 
       const executor = new OrderExecutor(
@@ -338,7 +338,7 @@ describe('#order executor', () => {
             getIfUpToDate: () => new Ticker('exchange', 'FOOUSD', 0, 1337, 1338), //
          } as unknown as Tickers,
          undefined,
-         { info: () => { }, error: () => { } },
+         { info: () => {}, error: () => {} },
       );
 
       await executor.adjustOpenOrdersPrice(pairState);
@@ -366,7 +366,7 @@ describe('#order executor', () => {
             },
          } as unknown as Tickers,
          undefined,
-         { info: () => { }, error: () => { } },
+         { info: () => {}, error: () => {} },
       );
 
       await executor.cancelAll('FOO_EXCHANGE', 'test');
@@ -397,7 +397,7 @@ describe('#order executor', () => {
             },
          } as unknown as Tickers,
          undefined,
-         { info: () => { }, error: () => { } },
+         { info: () => {}, error: () => {} },
       );
 
       await executor.cancelOrder('FOO_EXCHANGE', '1337-ABCD');
@@ -416,7 +416,7 @@ describe('#order executor', () => {
             },
          } as unknown as Tickers,
          undefined,
-         { info: () => { }, error: () => { } },
+         { info: () => {}, error: () => {} },
       );
 
       executor.tickerPriceInterval = 2;

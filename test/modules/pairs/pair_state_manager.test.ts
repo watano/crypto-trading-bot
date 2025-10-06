@@ -15,7 +15,7 @@ describe('#pair state manager', () => {
       let onPairStateExecutionTick: PairState | undefined;
       let adjustOpenOrdersPrice: PairState | undefined;
       const manager = new PairStateManager(
-         { info: () => { }, debug: () => { } },
+         { info: () => {}, debug: () => {} },
          { getSymbolCapital: () => OrderCapital.createAsset(12) } as unknown as PairConfig, //
          { getConfig: () => 1 } as unknown as SystemUtil,
          {
@@ -23,7 +23,6 @@ describe('#pair state manager', () => {
                onPairStateExecutionTick = pairState;
             },
          } as unknown as PairStateExecution,
-
          {
             adjustOpenOrdersPrice: (pairState: PairState) => {
                adjustOpenOrdersPrice = pairState;
@@ -76,13 +75,13 @@ describe('#pair state manager', () => {
    it('test pair state should be cleared', () => {
       const manager = new PairStateManager(
          {
-            info: () => { }, //
-            debug: () => { },
+            info: () => {}, //
+            debug: () => {},
          },
          { getSymbolCapital: () => OrderCapital.createAsset(12) } as unknown as PairConfig,
          { getConfig: () => 1 } as unknown as SystemUtil,
          {} as unknown as PairStateExecution,
-         { addInterval: () => { }, clearInterval: () => { } },
+         { addInterval: () => {}, clearInterval: () => {} },
       );
 
       manager.update('foo1', 'BTCUSD2', 'long', { foobar: 'test' });
@@ -101,7 +100,7 @@ describe('#pair state manager', () => {
       let adjustOpenOrdersPrice: PairState | undefined;
 
       const manager = new PairStateManager(
-         { info: () => { }, debug: () => { } },
+         { info: () => {}, debug: () => {} },
          { getSymbolCapital: () => OrderCapital.createAsset(12) } as unknown as PairConfig,
          { getConfig: () => 1 } as unknown as SystemUtil,
          {

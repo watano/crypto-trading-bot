@@ -21,7 +21,7 @@ describe('#pair state execution', () => {
          },
       }, undefined);
 
-      await executor.pairStateExecuteOrder(PairState.createLong('exchange', 'BTCUSD', OrderCapital.createAsset(1337), {}, true, () => { }));
+      await executor.pairStateExecuteOrder(PairState.createLong('exchange', 'BTCUSD', OrderCapital.createAsset(1337), {}, true, () => {}));
 
       assert.equal(myOrder.symbol, 'BTCUSD');
       assert.equal(myOrder.side, 'long');
@@ -52,7 +52,7 @@ describe('#pair state execution', () => {
          OrderCapital.createAsset(1337),
          { market: true },
          true,
-         () => { },
+         () => {},
       ));
 
       assert.equal(myOrder.symbol, 'BTCUSD');
@@ -77,7 +77,7 @@ describe('#pair state execution', () => {
          },
       }, undefined);
 
-      await executor.pairStateExecuteOrder(PairState.createShort('exchange', 'BTCUSD', OrderCapital.createAsset(1337), {}, true, () => { }));
+      await executor.pairStateExecuteOrder(PairState.createShort('exchange', 'BTCUSD', OrderCapital.createAsset(1337), {}, true, () => {}));
 
       assert.equal(myOrder.symbol, 'BTCUSD');
       assert.equal(myOrder.side, 'short');
@@ -102,7 +102,7 @@ describe('#pair state execution', () => {
          },
       }, undefined);
 
-      await executor.pairStateExecuteOrder(PairState.createShort('exchange', 'BTCUSD', OrderCapital.createAsset(1337), { market: true }, true, () => { }));
+      await executor.pairStateExecuteOrder(PairState.createShort('exchange', 'BTCUSD', OrderCapital.createAsset(1337), { market: true }, true, () => {}));
 
       assert.equal(myOrder.symbol, 'BTCUSD');
       assert.equal(myOrder.side, 'short');
@@ -266,7 +266,7 @@ describe('#pair state execution', () => {
       });
 
       const clearCalls: any[] = [];
-      await executor.onSellBuyPair(PairState.createLong('foobar', 'ADAUSDT', OrderCapital.createAsset(1337), () => { }, true, () => {
+      await executor.onSellBuyPair(PairState.createLong('foobar', 'ADAUSDT', OrderCapital.createAsset(1337), () => {}, true, () => {
          clearCalls.push([]);
       }));
 
@@ -356,7 +356,7 @@ describe('#pair state execution', () => {
                'buy',
                ExchangeOrder.TYPE_LIMIT,
             ),
-         cancelAll: async () => { },
+         cancelAll: async () => {},
       }, {
          error: (message: any) => {
             logMessages.error.push(message);

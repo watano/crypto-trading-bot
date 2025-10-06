@@ -29,8 +29,8 @@ As most trading bots just provide basic buy and sell signals they provide many s
 - [Bitfinex](https://www.bitfinex.com/?refcode=kDLceRHa) (margin wallet)
 - [Bybit](https://www.bybit.com/app/register?ref=46AK7)
   - [USDT Perpetual Futures (v2) APIs](https://bybit-exchange.github.io/docs/futuresV2/linear/#t-introduction)
-  - [Inverse Perpetual Futures (v2) APIs](https://bybit-exchange.github.io/docs/futuresV2/inverse/#t-introduction) 
-  
+  - [Inverse Perpetual Futures (v2) APIs](https://bybit-exchange.github.io/docs/futuresV2/inverse/#t-introduction)
+
 TODOS:
 
 - [Huobi Global](https://www.hbg.com/) (margin)
@@ -40,12 +40,9 @@ TODOS:
 - node.js
 - sqlite3
 - [technicalindicators](https://github.com/anandanand84/technicalindicators)
-- [tulipindicators - tulind](https://tulipindicators.org/list)
-- [TA-Lib](https://mrjbq7.github.io/ta-lib/)
-- twig
-- express
-- Bootstrap v4
-- Tradingview widgets
+- [trading-signals](https://github.com/bennycode/trading-signals)
+- [cinar - indicatorts](https://github.com/cinar/indicatorts)
+- [highcharts/Indicators](https://github.com/highcharts/highcharts/tree/master/ts/Stock/Indicators)
 
 ## How to use
 

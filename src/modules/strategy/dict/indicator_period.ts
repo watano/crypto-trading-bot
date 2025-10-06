@@ -1,4 +1,4 @@
-import { StrategyContext } from "~/src/dict/strategy_context";
+import { StrategyContext } from '~/src/dict/strategy_context';
 
 export class IndicatorPeriod {
    private strategyContext: StrategyContext;

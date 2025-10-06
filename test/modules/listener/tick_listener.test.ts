@@ -11,8 +11,8 @@ describe('#tick listener for order', () => {
       const listener = new TickListener(
          { get: () => new Ticker('unknown', 'BTC', 123456, 12, 12) } as unknown as Tickers,
          {},
-         { send: () => { } },
-         { signal: () => { } },
+         { send: () => {} },
+         { signal: () => {} },
          {
             executeStrategy: async () => {
                return SignalResult.createSignal('short', {});
@@ -29,7 +29,7 @@ describe('#tick listener for order', () => {
                return [];
             },
          },
-         { info: () => { } },
+         { info: () => {} },
          {},
          {},
          {},
@@ -52,7 +52,7 @@ describe('#tick listener for order', () => {
       const listener = new TickListener(
          { get: () => new Ticker('unknown', 'BTC', 123456, 12, 12) } as unknown as Tickers,
          {},
-         { send: () => { } },
+         { send: () => {} },
          {
             signal: (exchange: string, symbol: string, opts: any, signal: string, strategyKey: string) => {
                calls.push(exchange, symbol, opts, signal, strategyKey);
@@ -70,7 +70,7 @@ describe('#tick listener for order', () => {
             },
          },
          {},
-         { info: () => { } },
+         { info: () => {} },
          {},
          {},
          {},

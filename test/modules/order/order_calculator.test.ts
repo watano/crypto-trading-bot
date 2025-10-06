@@ -31,7 +31,7 @@ describe('#order size calculation', () => {
    };
 
    it('test instance order size for capital', async () => {
-      const calculator = new OrderCalculator(testTickers, { error: () => { } }, {
+      const calculator = new OrderCalculator(testTickers, { error: () => {} }, {
          get: () => {
             return { calculateAmount: (n: number) => n, isInverseSymbol: () => false };
          },
@@ -43,7 +43,7 @@ describe('#order size calculation', () => {
    });
 
    it('test instance order size currency capital', async () => {
-      const calculator = new OrderCalculator(testTickers, { error: () => { } }, {
+      const calculator = new OrderCalculator(testTickers, { error: () => {} }, {
          get: () => {
             return { calculateAmount: (n: number) => n, isInverseSymbol: () => false };
          },
@@ -55,7 +55,7 @@ describe('#order size calculation', () => {
    });
 
    it('test instance order size for inverse exchanges', async () => {
-      const calculator = new OrderCalculator(testTickers, { error: () => { } }, {
+      const calculator = new OrderCalculator(testTickers, { error: () => {} }, {
          get: () => {
             return { getTradableBalance: () => 100, calculateAmount: (n: number) => n, isInverseSymbol: () => true };
          },

@@ -18,8 +18,7 @@ export class CCI {
    }
 
    period(indicatorPeriod: IndicatorPeriod): Promise<any> {
-      return this.cci(indicatorPeriod.getPrice(),
-         indicatorPeriod.getIndicator('sma200'), indicatorPeriod.getIndicator('ema200'), indicatorPeriod.getIndicator('cci'), indicatorPeriod.getLastSignal() ?? '');
+      return this.cci(indicatorPeriod.getPrice(), indicatorPeriod.getIndicator('sma200'), indicatorPeriod.getIndicator('ema200'), indicatorPeriod.getIndicator('cci'), indicatorPeriod.getLastSignal() ?? '');
    }
 
    async cci(price: number, sma200Full: number[], ema200Full: number[], cciFull: number[], lastSignal: string): Promise<any> {

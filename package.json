@@ -39,10 +39,10 @@
       "binance-api-node": "^0.12.9",
       "ccxt": "^4.5.7",
       "defu": "^6.1.4",
+      "highcharts": "^12.4.0",
       "indicatorts": "^2.2.2",
       "lodash": "^4.17.21",
       "moment": "^2.30.1",
-      "talib": "^1.1.6",
       "trading-signals": "^7.0.0",
       "tslog": "^4.10.2",
       "ws": "^8.18.3"

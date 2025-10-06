@@ -20,8 +20,7 @@ check:
   oxlint --fix
 # build all codes
 build:
-  bun build --target=bun --minify --outfile=../ritmex/ritmex-bot.js ./index.ts
-  bun build --target=bun --minify --outfile=./backtest.js ./src/cli/backtest.ts
+  ::bun build --target=bun --minify --outfile=../ritmex/ritmex-bot.js ./index.ts
 # run test
 test case="test/exchange/utils/order_bag.test.ts":
    bun test --timeout 6000000 --watch {{case}}

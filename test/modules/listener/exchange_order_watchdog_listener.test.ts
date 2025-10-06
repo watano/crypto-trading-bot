@@ -11,7 +11,7 @@ import { Tickers } from '~/src/storage/tickers';
 
 // FIXME
 describe.skip('#watchdogs are working', () => {
-   const fakeLogger = { info: () => { }, error: () => { } };
+   const fakeLogger = { info: () => {}, error: () => {} };
    let calls: any[] = [];
    const fakeExchange = {
       getName: () => 'foobar',

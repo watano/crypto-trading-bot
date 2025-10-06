@@ -5,7 +5,7 @@ import { Position } from '~/src/dict/position';
 import { RiskRewardRatioCalculator } from '~/src/modules/order/risk_reward_ratio_calculator';
 
 describe('#risk reward order calculation', () => {
-   const fakeLogger = { info: () => { } };
+   const fakeLogger = { info: () => {} };
    it('calculate risk reward orders for long', async () => {
       const calculator = new RiskRewardRatioCalculator(fakeLogger);
 
